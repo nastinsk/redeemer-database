@@ -1,0 +1,19 @@
+<section class="book-container detail-view">
+  <img src="<%= book.image_url %>">
+  <h3>
+    <%= book.title %><% if (book.subtitle) { %>: <%= book.subtitle %> <% } %>
+  </h3>
+  <span>
+    <%= book.author %>
+  </span>
+  <p class="desc">
+    <%= book.description %>
+  </p>
+  <p class=""> <%= book.isbn %> </p>
+
+  <% if (bookshelves.length > 0) { %>
+  <% let currentShelf = bookshelves.filter(shelf => shelf.id === book.bookshelf_id); %>
+  <p>Bookshelf: <%= currentShelf[0].name %> </p>
+  <% } %>
+
+</section>
