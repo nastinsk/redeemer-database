@@ -1,0 +1,75 @@
+/* font-family: 'Cinzel', serif;
+font-family: 'Lato', sans-serif;
+font-family: 'Patrick Hand SC', cursive;
+font-family: 'Amatic SC', cursive;
+font-family: 'Beth Ellen', cursive;
+font-family: 'Open Sans', sans-serif;
+font-family: 'Loved by the King', cursive; */
+
+body {
+  background-image: url("./images/pretty_river.jpg");
+  background-color: #9AB37B;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+#login-box {
+  /* background-color: #2D3227; */
+  background-color:rgb(0,0,0,.6);
+  /* opacity: .6; */
+  color: white;
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 6px outset white;
+  box-shadow: 5px 5px 2px 1px black;
+}
+
+h1 {
+  font-family: 'Loved by the King', cursive;
+  font-size: 6rem;
+  /* opacity: 1; */
+  margin: 1rem 0rem;
+}
+
+h6 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 2rem;
+  font-style: italic;
+  color: #BE5347;
+  /* opacity: 1; */
+  margin-bottom: 2rem;
+}
+
+/* TODO:add on focus to button */
+button {
+  background-color: #9AB37B;
+  width: 50%;
+  padding: 1rem;
+  /* opacity: 1; */
+  margin-bottom: .5rem;
+}
+
+a {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+}

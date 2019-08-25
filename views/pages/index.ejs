@@ -2,24 +2,37 @@
 <html lang="en">
 
 <head>
-  <%- include('../layout/head') %>
-  <link rel="stylesheet" href="/styles/modules/books/show.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redeemer of Life Database</title>
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/home.css">
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Beth+Ellen|Cinzel|Lato:300|Loved+by+the+King|Open+Sans|Patrick+Hand+SC&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png">
 </head>
 
 <body>
-  <%- include('../layout/header') %>
   <main>
-    <h4><span class="book-count"><%= books.length %></span>Saved Books</h4>
-    <ul id="book-list">
-      <% books.forEach(book => { %>
-      <li class="book-items" data-book-id="<%= book.id %>">
-        <%- include('books/index-detail', {book: book}) %>
-        <p class="detail-button"><a href="/books/<%= book.id %>">View Details</a></p>
-      </li>
-      <% }) %>
-    </ul>
+    <div id=login-box>
+      <h1>Redeemer of Life</h1>
+      <h6>~Database Manager~</h6>
+      <button><a id="toggle">Login</a></button>
+      <p><a>Request Access</a></p>
+
+      <!-- <form id="login-container">
+          <p><input type="text" placeholder="Username"></p>
+          <p><input type="password" placeholder="Password"></p>
+          <p><input type="submit" value="Submit"></p>
+      </form> -->
+
+    </div>
+    
   </main>
-  <%- include('../layout/footer') %>
+  <footer>
+    <!-- TODO: determine footer content -->
+    Link to Front end and link to Erin portfolio here.
+  </footer>
+
 </body>
 
 </html>
