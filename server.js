@@ -37,7 +37,10 @@ app.set('view engine', 'ejs');
 
 // // API Routes
 app.get('/', homePage);
-app.get('/add', addSelection)
+app.get('/add', addSelection);
+app.get('/church/:id', getSingleChurch);
+app.post('/new-church', addChurch);
+app.post('/new-pastor', addPastor);
 // app.post('/searches', createSearch);
 // app.get('/searches/new', newSearch);
 // app.get('/books/:id', getBook);
@@ -46,6 +49,14 @@ app.get('/add', addSelection)
 // app.delete('/books/:id', deleteBook);
 
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
+
+function getSingleChurch(request, response) {
+  let SQL = 'SELECT * FROM churches WHERE id=$1;';
+      let values = [request.params.id];
+      client.query(SQL, values)
+        .then(result => response.render('pages/churches/show_single_church', { church: result.rows[0]}))
+        .catch(err => handleError(err, response));
+}
 
 // Turn the server On
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
@@ -70,6 +81,22 @@ function homePage(request, response) {
 
 function addSelection(request, response) {
   response.render('pages/add');
+}
+
+function addChurch(request, response) {
+  let { name, longitude, latitude, location, church_members, sunday_school, pre_school, description, community } = request.body;
+
+  let SQL = 'INSERT INTO churches(name, longitude, latitude, location, church_members, sunday_school, pre_school, description, community) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id';
+
+  let values = [name, longitude, latitude, location, church_members, sunday_school, pre_school, description, community];
+
+  client.query(SQL, values)
+    .then(result =>  response.redirect(`/church/${result.rows[0].id}`))
+    .catch(err => handleError(err, response));
+}
+
+function addPastor(request, response) {
+  
 }
 // // Load pastors from Database
 // function getPastors(request, response) {
@@ -187,3 +214,8 @@ function addSelection(request, response) {
 // function handleError(error, response) {
 //   response.render('pages/error', { error: error });
 // }
+
+// Error Handlers
+function handleError(error, response) {
+  response.render('pages/error', { error: error });
+}
