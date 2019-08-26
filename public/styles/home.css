@@ -20,13 +20,17 @@ body {
   justify-content: center;
   height: 100vh;
 }
-
+img {
+  width: 6.2rem;
+  height: 5.75rem;
+  margin-right: 1rem;
+}
 main {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
+  width: 70%;
 }
 
 #login-box {
@@ -45,15 +49,15 @@ main {
 }
 
 h1 {
-  font-family: 'Loved by the King', cursive;
-  font-size: 6rem;
+  font-family: 'Cinzel', serif;
+  font-size: 5rem;
   /* opacity: 1; */
   margin: 1rem 0rem;
 }
 
 h6 {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 2rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 2.5rem;
   font-style: italic;
   color: #BE5347;
   /* opacity: 1; */
@@ -62,14 +66,42 @@ h6 {
 
 /* TODO:add on focus to button */
 button {
-  background-color: #9AB37B;
+  background-color: #6b7d56;
   width: 50%;
-  padding: 1rem;
+  padding: .5rem 1rem;
+  color: black;
+  font-weight: bolder;
+  border: 6px outset white;
+  /* TODO: Add a box shadow that looks like a 3D button press */
+  /* box-shadow: 5px 5px 2px 1px grey; */
+  
   /* opacity: 1; */
-  margin-bottom: 1rem;
+  /* margin-bottom: .5rem; */
 }
 
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: #BE5347;
+  color: white;
+  border: 6px inset white;
+  /* TODO: Add a box shadow that looks like a 3D button press */
+  /* box-shadow: 5px 5px 2px 1px grey; */
+}
+
+button > a {
+  font-family: 'Lato', sans-serif;
+  font-size: 2rem;
+}
 a {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1rem;
+  font-family: 'Lato', sans-serif;
+  font-size: .75rem;
+}
+
+.logo-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
