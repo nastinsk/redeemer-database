@@ -1,12 +1,13 @@
-// 'use strict';
+'use strict';
 
 // $('.select-button').on('click', function() {
 //   $(this).next().removeClass('hide-me');
 // });
 
-// $('#update-button').on('click', function() {
-//   $('#update-form').removeClass('hide-me');
-// })
+$('#add-church-button').on('click', function() {
+  $('#add-church-form').toggle();
+})
 
-
-//toggle instead
+$('#add-pastor-button').on('click', function() {
+  $('#add-pastor-form').toggle();
+})
