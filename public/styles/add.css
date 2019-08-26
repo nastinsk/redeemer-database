@@ -187,79 +187,11 @@ form > p {
   font-size: 1.25rem;
 }
 
-header {
-  width: 100vw;
-  background-color:rgb(0,0,0);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: sticky;
-  position: fixed;
-  /* border-bottom: 2px solid white; */
-  box-shadow: .5px .5px 3px .5px white;
-  z-index: 3;
-
-}
-
-.logo-title {
-  color: white;
-  /* align-self: flex-start; */
-  padding: 1rem 0rem;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-}
-
-.logo-title > div {
-  display: flex;
-  flex-direction: row;
-}
-.logo-title h1 {
-  font-size: 3rem;
-  margin: 1rem 0rem .2rem 0rem;
-}
-
 .add-pastor-form > .line-break {
   margin-top: 2rem;
 }
 
-footer {
-  width: 100vw;
-  background-color:rgb(0,0,0);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-self: flex-end;
-  /* border-bottom: 2px solid white; */
-  /* TODO: Add a blurred white border on top of the footer */
-  /* border-top: solid 5px rgba(#ffff, .2); */
-  z-index: 3;
-  padding: .5rem;
-  position: sticky;
-  position: fixed;
-  bottom: 0px;
-  
-}
-
-footer > p {
-  font-family: 'Cinzel', serif;
-  color: white;
-  font-size: 1rem;
-  padding: .5rem 1rem;
-
-}
-
-footer > p > a {
-  font-family: 'Cinzel', serif;
-  color: white;
-  text-decoration: none;
-  font-size: 1rem;
-
-}
-
-footer > p > a:active {
-  font-family: 'Cinzel', serif;
-  color: white;
-  text-decoration: none;
-
-}
+/* .note {
+  color: #BE5347;
+  font-weight: bold;
+} */
