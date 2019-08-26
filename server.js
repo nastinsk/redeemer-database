@@ -37,6 +37,7 @@ app.set('view engine', 'ejs');
 
 // // API Routes
 app.get('/', homePage);
+app.get('/add', addSelection)
 // app.post('/searches', createSearch);
 // app.get('/searches/new', newSearch);
 // app.get('/books/:id', getBook);
@@ -65,6 +66,10 @@ app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 // Home Page
 function homePage(request, response) {
   response.render('pages/index');
+}
+
+function addSelection(request, response) {
+  response.render('pages/add');
 }
 // // Load pastors from Database
 // function getPastors(request, response) {

@@ -1,12 +1,17 @@
-// 'use strict';
+'use strict';
 
 // $('.select-button').on('click', function() {
 //   $(this).next().removeClass('hide-me');
 // });
+$('.add-church-form').hide();
+$('.add-pastor-form').hide();
 
-// $('#update-button').on('click', function() {
-//   $('#update-form').removeClass('hide-me');
-// })
+$('.add-church-button').on('click', function() {
+  $('.add-church-form').toggle();
+  $('.add-church-button').toggleClass('selected');
+})
 
-
-//toggle instead
+$('.add-pastor-button').on('click', function() {
+  $('.add-pastor-form').toggle();
+  $('.add-pastor-button').toggleClass('selected');
+})
