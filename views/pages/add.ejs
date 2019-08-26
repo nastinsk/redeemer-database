@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add to Database</title>
   <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/add.css">
   <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Beth+Ellen|Cinzel|Lato:300|Loved+by+the+King|Open+Sans|Patrick+Hand+SC&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png">
   <script src="https://kit.fontawesome.com/bddc901376.js"></script>
@@ -15,23 +15,70 @@
 <body>
   <main>
       <div id="add-to-database-box">
-          <h1>Add to Database</h1>
-          <div>
-            <a>
-              <i class="fas fa-church"></i>
-              <h2>Add a Church</h2>
-            </a>
-          </div>
-          <div>
-            <a>
-                <i class="fas fa-user"></i>  
-              <h2>Add a Pastor</h2>
-            </a>
-          </div>
-          <h6>~Database Manager~</h6>
-          <button><a id="toggle">Login</a></button>
-          <p><a>Request Access</a></p>
-    
+        <h1>Add to Database</h1>
+        <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda. Eam in affert discere dolorum, dicam mentitum delectus eam ea, erant mediocrem pro ad. Quot solet eleifend sit et, dico menandri mei id. Has ex enim mandamus, diam oratio erroribus sea te.</p>
+        <button class="add-church-button">
+          <h2>Add a Church</h2>
+          <i class="fas fa-church"></i>
+        </button>
+
+        <button class="add-pastor-button">
+            <h2>Add a Pastor</h2>
+            <i class="fas fa-user"></i>  
+        </button>
+
+        <div id="line-break"></div>
+        
+        <form class="add-church-form" action="/new-church" method="post">
+
+          <h3>Add a New Church to the Database</h3>
+          <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
+
+          <input type="text" name="name" placeholder="Church Name" required>
+
+          <input type="number" name="longitude" placeholder="Longitude (Example: 122.9719454)" required>
+
+          <input type="number" name="latitude" placeholder="Latitude (Example: 10.8001204)" required>
+
+          <input type="number" name="church_members" placeholder="Number of Adults" required>
+
+          <input type="number" name="sunday_school" placeholder="Number of Children" required>
+
+          <input type="number" name="pre_school" placeholder="Number of Preschool Children" required>
+          
+          <textarea name="description" placeholder="['church description', 'paragraphs separated by commas']" cols="30" rows="5" required></textarea>
+
+          <textarea name="community" placeholder="['community description', 'paragraphs separated by commas']" cols="30" rows="5" required></textarea>
+          
+          <button type="submit">Add to Database</button>
+      </form>
+
+      <form class="add-pastor-form" action="/new-pastor" method="post">
+
+        <h3>Add a New Pastor to the Database</h3>
+          <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
+          <p>Note: If the Pastor is associated with a new church, the church must be added to the database first</p>
+
+        <input type="text" name="pastor_first_name" placeholder="Pastor First Name" required>
+
+        <input type="text" name="pastor_last_name" placeholder="Pastor Last Name" required>
+
+        <input type="text" name="spouse" placeholder="Spouse First Name" required>
+
+        <textarea type="text" name="pastor_story" placeholder="['Pastors story', 'paragraphs separated by commas']" required></textarea>
+
+        <textarea type="text" name="spouse_story" placeholder="['Spouses story', 'paragraphs separated by commas']" required></textarea>
+
+        <input type="url" name="image_url" placeholder="URL from Imgur or Other Online Image" required>
+
+        <textarea type="text" name="family_marriage" placeholder="['Family or Marriage story', 'paragraphs separated by commas']" required></textarea>
+        
+        <textarea name="text" placeholder="['Prayer Needs', 'lines separated by commas']" cols="30" rows="5" required></textarea>
+
+        <!-- TODO: add a field to get church options as a span -->
+        
+        <button type="submit">Add to Database</button>
+    </form>
           <!-- <form id="login-container">
               <p><input type="text" placeholder="Username"></p>
               <p><input type="password" placeholder="Password"></p>
