@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS churches (
   church_members VARCHAR(255),
   sunday_school VARCHAR(255),
   pre_school VARCHAR(255),
-  description TEXT,
-  community TEXT
+  description TEXT[],
+  community TEXT[]
 );
 
 CREATE TABLE IF NOT EXISTS pastors (
@@ -45,6 +45,6 @@ INSERT INTO churches (name, longitude, latitude, location, church_members, sunda
   '89',
   '42',
   '73',
-  'Not from surrounding community; very poor with very few having permanent jobs; a few teachers and small business owners; part time work construction and sugar cane fields. Church owns building and parsonage on same property which provides home for family of Sharyl Antolo (Mom, Dad, and brother) and Jenny Jaya. Noel currently provides leadership for the government’s Moral Recovery Program aims to encourage individuals to develop good moral character. It promotes the importance of honesty, integrity and kindness. The program highlights how helping others in the community and beyond is important. Noel works closely with local govt. employees & police along with 16 other pastors; allows access to people and communities teaching Biblical principles.',
-  'Church members not from immediate community. Sugar cane workers – many in slave relationships due to money borrowed from property owners.'
+  ARRAY ['Not from surrounding community; very poor with very few having permanent jobs; a few teachers and small business owners; part time work construction and sugar cane fields.', 'Church owns building and parsonage on same property which provides home for family of Sharyl Antolo (Mom, Dad, and brother) and Jenny Jaya. Noel currently provides leadership for the governments Moral Recovery Program aims to encourage individuals to develop good moral character. It promotes the importance of honesty, integrity and kindness. The program highlights how helping others in the community and beyond is important. Noel works closely with local govt. employees & police along with 16 other pastors; allows access to people and communities teaching Biblical principles.'],
+  ARRAY ['Church members not from immediate community.', 'Sugar cane workers – many in slave relationships due to money borrowed from property owners.']
 );

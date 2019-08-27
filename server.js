@@ -55,7 +55,7 @@ function getSingleChurch(request, response) {
   let SQL = 'SELECT * FROM churches WHERE id=$1;';
       let values = [request.params.id];
       client.query(SQL, values)
-        .then(result => response.render('pages/churches/show_single_church', { church: result.rows[0]}))
+        .then(result => response.render('pages/show_single_church', { church: result.rows[0]}))
         .catch(err => handleError(err, response));
 }
 

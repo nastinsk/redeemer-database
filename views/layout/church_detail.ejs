@@ -1,0 +1,38 @@
+<section id="single-church-info">
+    <div class="church-info-title">
+      <i class="fas fa-church church-icon"></i>
+      <h2><%= church.name %></h2>
+    </div>
+  <div class="church-info">
+    <!-- TODO: Link Pastors Table as a display field -->
+    <h6>Location: <%= church.location %></h6>
+    <div>
+      <h6>Latitude: <%= church.latitude %></h6>
+      <h6>Longitude: longitude</h6>
+    </div>
+    <div>
+      <h3>Congregation Statistics</h3>
+      <ul>
+        <li><%= church.church_members %> Adults</li>
+        <li><%= church.sunday_school %> Sunday School Children</li>
+        <li><%= church.pre_school %> Children in Preschool or Feeding Program</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Description</h3>
+      <% for(let i = 0 ; i < church.description.length ; i++) { %>
+      <p><%= church.description[i] %></p> 
+      <% } %>
+    </div>
+    <div>
+        <h3>Community</h3>
+        <% for(let i = 0 ; i < church.community.length ; i++) { %>
+        <p><%= church.community[i] %></p> 
+        <% } %>
+    </div>
+  </div>
+  <div>
+    <button>Update</button>
+    <button>Delete</button>
+  </div>
+</section>
