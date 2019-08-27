@@ -6,6 +6,10 @@ font-family: 'Beth Ellen', cursive;
 font-family: 'Open Sans', sans-serif;
 font-family: 'Loved by the King', cursive; */
 
+html {
+  height: 100vh;
+}
+
 body {
   background-image: url("./images/pretty_river.jpg");
   background-attachment: fixed;
@@ -34,16 +38,16 @@ main {
   align-items: center;
   justify-content: center;
   width: 70%;
-  flex-grow: 2;
+  /* flex-grow: 2; */
 }
 
 #add-to-database-box {
-  margin-top: calc(7rem + 2rem);
+  margin-top: 12rem;
   overflow-y: scroll;
   overflow: visible;
   position: sticky; 
   padding: 2rem 0;
-  margin-bottom: 2rem;
+  margin-bottom: 8rem;
   /* background-color: #2D3227; */
   background-color:rgb(0,0,0,.8);
   /* opacity: .6; */

@@ -225,3 +225,6 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/node,macos,linux,windows,webstorm,visualstudiocode
+
+# Local Dev Notes
+NOTES.MD

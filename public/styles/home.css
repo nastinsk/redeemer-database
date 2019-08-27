@@ -32,6 +32,7 @@ main {
   align-items: center;
   justify-content: center;
   width: 70%;
+  flex-grow: 2;
 }
 
 #login-box {
