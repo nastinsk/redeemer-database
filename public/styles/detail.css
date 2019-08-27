@@ -45,6 +45,13 @@
   font-size: 2rem;
 
 }
+
+#map {
+  width: 20%;
+  height: 20%;
+  border: 3px outset white;
+  box-shadow: 5px 5px 2px 1px black;
+}
 .info-container {
   display: flex;
   flex-direction: row;
