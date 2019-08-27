@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS pastors, churches;
 CREATE TABLE IF NOT EXISTS churches (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
+  map_url VARCHAR(500),
   longitude NUMERIC,
   latitude NUMERIC,
   location TEXT,
@@ -37,8 +38,9 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
   ARRAY ['Jobs, ministry for sons Nosnhoj (1990) & Jireh (1991)', 'Early retirement approval for Jackie at age 55 ( in two years) work at ICM stressful', 'Relationship with children', 'Increasing of R of L network 1 to 2 churches per year; identify willing learners', 'Noel health: high BP & asthma', 'Jackie health: stroke in 2014; low BP; arthritis; impact of menopause; headaches & needed therapy for neck and shoulders', 'Desire to see more physical church buildings for R of L; financial needs exist for property purchase & materials']
 );
 
-INSERT INTO churches (name, longitude, latitude, location, church_members, sunday_school, pre_school, description, community) VALUES (
+INSERT INTO churches (name, map_url, longitude, latitude, location, church_members, sunday_school, pre_school, description, community) VALUES (
   'Grace Baptist Church',
+  'https://maps.googleapis.com/maps/api/staticmap?center=10.8001204%2c%20122.9719454&zoom=8&size=600x600&markers=size:medium%7Ccolor:red%7C10.8001204,122.9719454&maptype=hybrid&key=AIzaSyCYccqr8-Sor69gTESrIU8AJ2ubMnl6q_o',
   122.9719454,
   10.8001204,
   'Silay City, Negros Occidental',
