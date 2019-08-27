@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS pastors, churches;
 CREATE TABLE IF NOT EXISTS churches (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255),
-  longitude NUMERIC(18, 0) NULL,
-  latitude NUMERIC(18, 0) NULL,
+  longitude NUMERIC,
+  latitude NUMERIC,
   location TEXT,
   church_members VARCHAR(255),
   sunday_school VARCHAR(255),
@@ -39,12 +39,12 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
 
 INSERT INTO churches (name, longitude, latitude, location, church_members, sunday_school, pre_school, description, community) VALUES (
   'Grace Baptist Church',
-  '122.9719454',
-  '10.8001204',
+  122.9719454,
+  10.8001204,
   'Silay City, Negros Occidental',
   '89',
   '42',
   '73',
-  ARRAY ['Not from surrounding community; very poor with very few having permanent jobs; a few teachers and small business owners; part time work construction and sugar cane fields.', 'Church owns building and parsonage on same property which provides home for family of Sharyl Antolo (Mom, Dad, and brother) and Jenny Jaya. Noel currently provides leadership for the governments Moral Recovery Program aims to encourage individuals to develop good moral character. It promotes the importance of honesty, integrity and kindness. The program highlights how helping others in the community and beyond is important. Noel works closely with local govt. employees & police along with 16 other pastors; allows access to people and communities teaching Biblical principles.'],
+  ARRAY ['Not from surrounding community; very poor with very few having permanent jobs; a few teachers and small business owners; part time work construction and sugar cane fields.', 'Church owns building and parsonage on same property which provides home for family of Sharyl Antolo (Mom, Dad, and brother) and Jenny Jaya.','Noel currently provides leadership for the governments Moral Recovery Program aims to encourage individuals to develop good moral character. It promotes the importance of honesty, integrity and kindness. The program highlights how helping others in the community and beyond is important. Noel works closely with local govt. employees & police along with 16 other pastors; allows access to people and communities teaching Biblical principles.'],
   ARRAY ['Church members not from immediate community.', 'Sugar cane workers – many in slave relationships due to money borrowed from property owners.']
 );

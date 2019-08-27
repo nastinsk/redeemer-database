@@ -5,33 +5,41 @@
     </div>
   <div class="church-info">
     <!-- TODO: Link Pastors Table as a display field -->
-    <h6>Location: <%= church.location %></h6>
-    <div>
-      <h6>Latitude: <%= church.latitude %></h6>
-      <h6>Longitude: longitude</h6>
+    <h6><%= church.location %></h6>
+    <!-- TODO: Display a map from Google Maps API using LAT/LONG Coordinates -->
+    <div class="info-container">
+      <div id="coordinates">
+        <h3>GPS Data</h3>
+        <h6>Latitude: <%= church.latitude %></h6>
+        <h6>Longitude: <%= church.longitude %></h6>
+      </div>
+      <div id="congregation-stats">
+        <h3>Congregation Statistics</h3>
+        <ul>
+          <li><%= church.church_members %> Adults</li>
+          <li><%= church.sunday_school %> Sunday School Children</li>
+          <li><%= church.pre_school %> Preschool Children</li>
+        </ul>
+      </div>
     </div>
-    <div>
-      <h3>Congregation Statistics</h3>
-      <ul>
-        <li><%= church.church_members %> Adults</li>
-        <li><%= church.sunday_school %> Sunday School Children</li>
-        <li><%= church.pre_school %> Children in Preschool or Feeding Program</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Description</h3>
-      <% for(let i = 0 ; i < church.description.length ; i++) { %>
-      <p><%= church.description[i] %></p> 
-      <% } %>
-    </div>
-    <div>
-        <h3>Community</h3>
-        <% for(let i = 0 ; i < church.community.length ; i++) { %>
-        <p><%= church.community[i] %></p> 
+    <div class="details">
+
+      <div>
+        <h3>Description</h3>
+        <% for(let i = 0 ; i < church.description.length ; i++) { %>
+        <p><%= church.description[i] %></p> 
         <% } %>
+      </div>
+      <div>
+          <h3>Community</h3>
+          <% for(let i = 0 ; i < church.community.length ; i++) { %>
+          <p><%= church.community[i] %></p> 
+          <% } %>
+      </div>
+
     </div>
   </div>
-  <div>
+  <div class="detail-buttons">
     <button>Update</button>
     <button>Delete</button>
   </div>
