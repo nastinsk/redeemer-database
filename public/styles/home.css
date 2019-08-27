@@ -6,8 +6,9 @@ font-family: 'Beth Ellen', cursive;
 font-family: 'Open Sans', sans-serif;
 font-family: 'Loved by the King', cursive; */
 
+/* TODO: fix the FOUC */
 body {
-  background-image: url("./images/pretty_river.jpg");
+  background-image: url("./images/pretty_river_compressed.jpg");
   background-color: #9AB37B;
   background-position: center top;
   background-repeat: no-repeat;
@@ -64,7 +65,6 @@ h6 {
   margin-bottom: 2rem;
 }
 
-/* TODO:add on focus to button */
 button {
   background-color: #6b7d56;
   width: 50%;
