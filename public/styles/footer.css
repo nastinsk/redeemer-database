@@ -13,7 +13,7 @@ footer {
   position: sticky;
   position: fixed;
   bottom: 0px;
-  
+  /* flex-grow: 1; */
 }
 
 footer > p {
