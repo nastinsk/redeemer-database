@@ -88,15 +88,31 @@
 
         <input type="text" name="spouse" placeholder="Spouse First Name" required>
 
-        <textarea type="text" name="pastor_story" placeholder="['Pastors story', 'paragraphs separated by commas']" required></textarea>
+        <!-- TODO: Redo with https://codepen.io/j0be/pen/jWGVvV -->
 
-        <textarea type="text" name="spouse_story" placeholder="['Spouses story', 'paragraphs separated by commas']" required></textarea>
+        <div class="select-div">
+          <select class="show-church-list" type="text" name="church_id" required>
+          <option class= "default-option"value="Unaffiliated" selected>Select a Church</option>
+          
+          <% churchList.forEach(church => { %>
+          <option class= "other-option" value="<%= church.id %>"><%= church.name %> - <%= church.location %></option>
+          <% }) %>
+          
+          <input id="church-value" class="hide-input-field" type="text"
+          name="church_id" value="unassigned" required>
+
+          </select>
+        </div>
+
+        <textarea type="text" name="pastor_story" placeholder="{'Pastors story', 'paragraphs separated by commas'}" required></textarea>
+
+        <textarea type="text" name="spouse_story" placeholder="{'Spouses story', 'paragraphs separated by commas'}" required></textarea>
 
         <input type="url" name="image_url" placeholder="URL from Imgur or Other Online Image" required>
 
-        <textarea type="text" name="family_marriage" placeholder="['Family or Marriage story', 'paragraphs separated by commas']" required></textarea>
+        <textarea type="text" name="family_marriage" placeholder="{'Family or Marriage story', 'paragraphs separated by commas'}" required></textarea>
         
-        <textarea name="text" placeholder="['Prayer Needs', 'lines separated by commas']" cols="30" rows="5" required></textarea>
+        <textarea name="text" placeholder="{'Prayer Needs', 'lines separated by commas'{" cols="30" rows="5" required></textarea>
 
         <!-- TODO: add a field to get church options as a span -->
         

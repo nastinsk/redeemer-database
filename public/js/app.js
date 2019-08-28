@@ -1,8 +1,6 @@
 'use strict';
 
-// $('.select-button').on('click', function() {
-//   $(this).next().removeClass('hide-me');
-// });
+//Toggle form show for church or pastor
 $('.add-church-form').hide();
 $('.add-pastor-form').hide();
 
@@ -24,12 +22,20 @@ $('.add-pastor-button').on('click', function () {
   $('.add-pastor-button').toggleClass('selected');
 })
 
-  // $(".cross").hide();
+//Hamburger Menu
   $(".menu").hide();
   $(".hamburger").click(function () {
-    $(".menu").toggle("slow", 
+    $(".menu").toggle("slow");
+  });
 
-  );
+//Church Selection on Pastor Add
+$('#church-value').hide();
+$('.show-church-list').on('change', function(){
+  let selectedChurch = $(this).val();
+  console.log((this).value)//this works
+  $(this).parent().find('#church-value').val(selectedChurch);
+    console.log('I should be hiding');
+    console.log(selectedChurch);
   });
 
 

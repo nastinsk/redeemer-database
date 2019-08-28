@@ -37,6 +37,8 @@ app.set('view engine', 'ejs');
 
 // // API Routes
 app.get('/', homePage);
+app.get('/all_churches', allChurches);
+app.get('/all_pastors', allPastors);
 app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
 app.post('/new-church', addChurch);
@@ -62,50 +64,72 @@ function getSingleChurch(request, response) {
 // Turn the server On
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
 
-// // HELPER FUNCTIONS
+// HELPER FUNCTIONS
 
-// // Data Model Constructor
-// function Book(info) {
-//   const placeholderImage = 'https://i.imgur.com/J5LVHEL.jpg';
+// Retrieve churches from database
+function getChurchList() {
+  let SQL = 'SELECT DISTINCT id, name, location FROM churches ORDER BY name;';
 
-//   this.title = info.title ? info.title : 'No title available';
-//   this.author = info.authors ? info.authors[0] : 'No author available';
-//   this.isbn = info.industryIdentifiers ? `ISBN_13 ${info.industryIdentifiers[0].identifier}` : 'No ISBN available';
-//   this.image_url = info.imageLinks ? info.imageLinks.smallThumbnail : placeholderImage;
-//   this.description = info.description ? info.description : 'No description available';
-// }
+  return client.query(SQL);
+}
 
 // Home Page
 function homePage(request, response) {
   response.render('pages/index');
 }
 
+// TODO: Can allChurches and allPastors be made into 1 function?
+function allChurches(request, response) {
+  let SQL = 'SELECT * FROM churches ORDER BY name ASC;'
+  console.log('i am here');
+  return client.query(SQL)
+    .then(results => {
+      if (results.rows.rowCount === 0) {
+        response.render('pages/add');
+      } else {
+        response.render('pages/all_churches', { churches: results.rows })
+        console.log(SQL, 'hi')
+      }
+    })
+    .catch(err => handleError(err, response));
+}
+  
+function allPastors(request, response) {
+  let SQL = 'SELECT * FROM pastors ORDER BY pastor_last_name ASC;'
+
+  return client.query(SQL)
+    .then(results => {
+      if (results.rows.rowCount === 0) {
+        response.render('pages/add');
+      } else {
+        response.render('pages/all_pastors', { pastors: results.rows })
+      }
+    })
+    .catch(err => handleError(err, response));
+}
+
 function addSelection(request, response) {
-  response.render('pages/add');
+  getChurchList()
+    .then(churchList => {
+      response.render('pages/add', {churchList: churchList.rows});
+    })
 }
 
 function addChurch(request, response) {
 
   
   let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:red%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
-  // console.log(map_url); //can be used to get google map
+  // console.log(map_url); //comment back in to get google map URL
   
   let { name, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community } = request.body;
 
-  console.log('request.body: ', request.body);
-
   let SQL = 'INSERT INTO churches(name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id;'
 
-  console.log('SQL:',  SQL);
-
   let values = [name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community];
-  console.log('values: ', values);
-  console.log(client.query(SQL, values));
 
   client.query(SQL, values)
     .then(result =>  {
       response.redirect(`/church/${result.rows[0].id}`)
-    console.log('redirect')
     })
     .catch(err => handleError(err, response));
 }
