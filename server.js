@@ -41,6 +41,7 @@ app.get('/all_churches', allChurches);
 app.get('/all_pastors', allPastors);
 app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
+app.get('/pastor/:id', getSinglePastor);
 app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
 // app.post('/searches', createSearch);
@@ -58,6 +59,14 @@ function getSingleChurch(request, response) {
       let values = [request.params.id];
       client.query(SQL, values)
         .then(result => response.render('pages/show_single_church', { church: result.rows[0]}))
+        .catch(err => handleError(err, response));
+}
+
+function getSinglePastor(request, response) {
+  let SQL = 'SELECT * FROM pastors WHERE id=$1;';
+      let values = [request.params.id];
+      client.query(SQL, values)
+        .then(result => response.render('pages/show_single_pastor', { pastor: result.rows[0]}))
         .catch(err => handleError(err, response));
 }
 
@@ -135,7 +144,21 @@ function addChurch(request, response) {
 }
 
 function addPastor(request, response) {
-  
+  console.log('here!')
+  let { pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id} = request.body;
+
+  console.log(request.body);
+
+  let SQL = 'INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;'
+
+  let values = [pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id[0]];
+
+  client.query(SQL, values)
+    .then(result =>  {
+      console.log(result)
+      response.redirect(`/pastor/${result.rows[0].id}`)
+    })
+    .catch(err => handleError(err, response));
 }
 // // Load pastors from Database
 // function getPastors(request, response) {

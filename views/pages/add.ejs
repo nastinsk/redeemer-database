@@ -90,19 +90,20 @@
 
         <!-- TODO: Redo with https://codepen.io/j0be/pen/jWGVvV -->
 
-        <div class="select-div">
-          <select class="show-church-list" type="text" name="church_id" required>
-          <option class= "default-option"value="Unaffiliated" selected>Select a Church</option>
+        <span class="dropdown-el">
+          <input type="radio" name="church_id" value="Unaffiliated" checked="checked" id="Unaffiliated"><label for"Unaffiliated">Select a Church</label>
+
+          <!-- <select class="show-church-list" type="text" name="church_id" required> -->
+          <!-- <option class= "default-option"value="Unaffiliated" selected>Select a Church</option> -->
           
           <% churchList.forEach(church => { %>
-          <option class= "other-option" value="<%= church.id %>"><%= church.name %> - <%= church.location %></option>
+            <input type="radio" name="church_id" value="<%= church.id %>" id="<%= church.id %>"><label id="<%= church.id %>" for="<%= church.id %>"><%= church.name %> - <%= church.location %></label>
+          <!-- <option class= "other-option" value="<%= church.id %>"><%= church.name %> - <%= church.location %></option> -->
           <% }) %>
           
           <input id="church-value" class="hide-input-field" type="text"
           name="church_id" value="unassigned" required>
-
-          </select>
-        </div>
+        </span>
 
         <textarea type="text" name="pastor_story" placeholder="{'Pastors story', 'paragraphs separated by commas'}" required></textarea>
 

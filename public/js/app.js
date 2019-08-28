@@ -29,13 +29,29 @@ $('.add-pastor-button').on('click', function () {
   });
 
 //Church Selection on Pastor Add
-$('#church-value').hide();
-$('.show-church-list').on('change', function(){
-  let selectedChurch = $(this).val();
-  console.log((this).value)//this works
-  $(this).parent().find('#church-value').val(selectedChurch);
-    console.log('I should be hiding');
-    console.log(selectedChurch);
+// $('#church-value').hide();
+// $('.show-church-list').on('change', function(){
+//   let selectedChurch = $(this).val();
+//   console.log((this).value)//this works
+//   $(this).parent().find('#church-value').val(selectedChurch);
+//     console.log('I should be hiding');
+//     console.log(selectedChurch);
+//   });
+
+  //drop down menu animation
+  $('.dropdown-el').click(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).toggleClass('expanded');
+    $('#'+$(e.target).attr('for')).prop('checked',true);
+    // let selectedChurch = $(e.target).attr('for');
+  // console.log((this).value)//this works
+  // $(this).parent().find('#church-value').val(parseInt(selectedChurch));
+  //   // console.log('I should be hiding');
+  //   console.log(typeof selectedChurch);
+  });
+  $(document).click(function() {
+    $('.dropdown-el').removeClass('expanded');
   });
 
 
