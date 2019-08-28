@@ -87,17 +87,26 @@ function addSelection(request, response) {
 function addChurch(request, response) {
 
   
-  let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=600x600&markers=size:medium%7Ccolor:red%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
-  console.log(map_url); //can be used to get google map
+  let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:red%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
+  // console.log(map_url); //can be used to get google map
   
-  let { name, longitude, latitude, location, church_members, sunday_school, pre_school, description, community } = request.body;
+  let { name, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community } = request.body;
 
-  let SQL = 'INSERT INTO churches(name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, description, community) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id';
+  console.log('request.body: ', request.body);
 
-  let values = [name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, description, community];
+  let SQL = 'INSERT INTO churches(name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id;'
+
+  console.log('SQL:',  SQL);
+
+  let values = [name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community];
+  console.log('values: ', values);
+  console.log(client.query(SQL, values));
 
   client.query(SQL, values)
-    .then(result =>  response.redirect(`/church/${result.rows[0].id}`))
+    .then(result =>  {
+      response.redirect(`/church/${result.rows[0].id}`)
+    console.log('redirect')
+    })
     .catch(err => handleError(err, response));
 }
 

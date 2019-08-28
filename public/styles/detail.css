@@ -38,6 +38,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 90%;
 }
 
 .church-info > h6 {
@@ -47,10 +48,13 @@
 }
 
 #map {
-  width: 20%;
-  height: 20%;
+  max-width: 60%;
+  max-height: 30%;
+  width: auto;
+  height: auto;
   border: 3px outset white;
   box-shadow: 5px 5px 2px 1px black;
+  margin-top: 2rem;
 }
 .info-container {
   display: flex;
@@ -60,6 +64,7 @@
   font-size: 1.5rem;
   margin-top: 2rem;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 #coordinates {
