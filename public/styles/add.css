@@ -127,13 +127,14 @@ button.selected {
   border: 6px inset grey;
 }
 
-button:hover {
+/* TODO: decide if I want a hover effect on the buttons */
+/* button:hover {
   background-color: #FBD160;
   color: black;
   border: 6px inset grey;
   /* TODO: Add a box shadow that looks like a 3D button press */
   /* box-shadow: 5px 5px 2px 1px grey; */
-}
+/* }  */
 
 button > i {
   font-family: 'Lato', sans-serif;
