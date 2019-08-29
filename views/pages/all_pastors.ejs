@@ -22,7 +22,7 @@
       <ul class= "object-list">
         <% pastors.forEach(pastor => { %>
         <li>
-          <h3><%= pastor.pastor_first_name %> and <%= pastor.spouse %> <%= pastor.pastor_last_name %> - Church Name</h3>
+          <h3><%= pastor.pastor_first_name %> and <%= pastor.spouse %> <%= pastor.pastor_last_name %> - <%= pastor.name %></h3>
           <!-- TODO: Do a join?? to pull in church name and location? to pastors table or reference separate table based on id?-->
           <div class="buttons">
             <button><a href="/pastor/<%= pastor.id %>">Details</a></button>

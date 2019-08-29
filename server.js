@@ -102,13 +102,14 @@ function allChurches(request, response) {
 }
   
 function allPastors(request, response) {
-  let SQL = 'SELECT * FROM pastors ORDER BY pastor_last_name ASC;'
+  let SQL = 'SELECT pastors.id, pastors.pastor_first_name, pastors.pastor_last_name, pastors.spouse, pastors.pastor_story, pastors.spouse_story, pastors.image_url, pastors.family_marriage, pastors.prayer_needs, pastors.church_id, churches.name, churches.location FROM pastors LEFT JOIN churches ON pastors.church_id = churches.id ORDER BY pastor_last_name ASC;'
 
   return client.query(SQL)
     .then(results => {
       if (results.rows.rowCount === 0) {
         response.render('pages/add');
       } else {
+        console.log('results:', results.rows)
         response.render('pages/all_pastors', { pastors: results.rows })
       }
     })
