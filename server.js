@@ -63,12 +63,37 @@ function getSingleChurch(request, response) {
 }
 
 function getSinglePastor(request, response) {
-  let SQL = 'SELECT * FROM pastors WHERE id=$1;';
+  getChurchList()
+    .then(churches => {
+      let SQL = 'SELECT pastors.*, churches.name, churches.location FROM pastors INNER JOIN churches on pastors.church_id = churches.id WHERE pastors.id=$1;';
+
       let values = [request.params.id];
+
       client.query(SQL, values)
-        .then(result => response.render('pages/show_single_pastor', { pastor: result.rows[0]}))
+      .then(result => {
+        let church = churches.rows.find(church => church.id ===parseInt(result.rows[0].church_id));
+        
+        response.render('pages/show_single_pastor', { pastor: result.rows[0], churches: churches.rows, church: church})
+      })
         .catch(err => handleError(err, response));
-}
+    })
+  }
+
+// Retrieve and Render a single book
+// function getBook(request, response) {
+//   getBookshelves()
+//     .then(shelves => {
+
+//       let SQL = 'SELECT books.*, bookshelves.name FROM books INNER JOIN bookshelves on books.bookshelf_id=bookshelves.id WHERE books.id=$1;';
+//       let values = [request.params.id];
+//       client.query(SQL, values)
+//         .then(result => {
+//           let shelf = shelves.rows.find(shelf => shelf.id === parseInt(result.rows[0].bookshelf_id));
+//           response.render('pages/books/show', { book: result.rows[0], bookshelves: shelves.rows, shelfName: shelf })
+//         })
+//         .catch(err => handleError(err, response));
+//     })
+// }
 
 // Turn the server On
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
