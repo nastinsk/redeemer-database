@@ -29,6 +29,20 @@ CREATE TABLE IF NOT EXISTS pastors (
 );
 
 INSERT INTO churches (name, map_url, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES (
+  'Unassigned',
+  'https://via.placeholder.com/400',
+  0.0000,
+  0.0000,
+  'Philippines',
+  '0',
+  '0',
+  '0',
+  'NA',
+  ARRAY [''],
+  ARRAY ['']
+);
+
+INSERT INTO churches (name, map_url, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES (
   'Grace Baptist Church',
   'https://maps.googleapis.com/maps/api/staticmap?center=10.8001204%2c%20122.9719454&zoom=8&size=400x400&markers=size:medium%7Ccolor:red%7C10.8001204,122.9719454&maptype=hybrid&key=AIzaSyCYccqr8-Sor69gTESrIU8AJ2ubMnl6q_o',
   122.9719454,
@@ -76,7 +90,6 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
   ARRAY ['Bible college to “reform” rebellions & stubborn; housekeeper/nanny in Singapore & ministered to Muslim family; worked in sugar cane fields to support brother’s education', 'Grew up in community where now in ministry'],
   'https://i.imgur.com/IOf4BB1.png',
   ARRAY ['Met in Bible School', 'Two children: Dan Israel (2011) and Niel John (2014)'],
-  ARRAY ['Income generating project; project team to help get this started', 'Preschool; parents of children & patience', 'Improvement in transportation logistics', 'Daisy desire for faithfulness, strength, wisdom, blessing to
-others', 'Health of sons', 'Financial struggles'],
-2
+  ARRAY ['Income generating project; project team to help get this started', 'Preschool; parents of children & patience', 'Improvement in transportation logistics', 'Daisy desire for faithfulness, strength, wisdom, blessing to others', 'Health of sons', 'Financial struggles'],
+  2
 );

@@ -90,14 +90,12 @@ function homePage(request, response) {
 // TODO: Can allChurches and allPastors be made into 1 function?
 function allChurches(request, response) {
   let SQL = 'SELECT * FROM churches ORDER BY name ASC;'
-  console.log('i am here');
   return client.query(SQL)
     .then(results => {
       if (results.rows.rowCount === 0) {
         response.render('pages/add');
       } else {
         response.render('pages/all_churches', { churches: results.rows })
-        console.log(SQL, 'hi')
       }
     })
     .catch(err => handleError(err, response));
@@ -144,10 +142,8 @@ function addChurch(request, response) {
 }
 
 function addPastor(request, response) {
-  console.log('here!')
   let { pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id} = request.body;
 
-  console.log(request.body);
 
   let SQL = 'INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;'
 
@@ -155,7 +151,6 @@ function addPastor(request, response) {
 
   client.query(SQL, values)
     .then(result =>  {
-      console.log(result)
       response.redirect(`/pastor/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));

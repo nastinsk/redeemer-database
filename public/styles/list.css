@@ -28,6 +28,10 @@
 
 }
 
+.hide {
+  display: none;
+}
+
 .all > div > h1 {
   padding: .5rem 0;
   margin: 0;

@@ -44,11 +44,6 @@ $('.add-pastor-button').on('click', function () {
     e.stopPropagation();
     $(this).toggleClass('expanded');
     $('#'+$(e.target).attr('for')).prop('checked',true);
-    // let selectedChurch = $(e.target).attr('for');
-  // console.log((this).value)//this works
-  // $(this).parent().find('#church-value').val(parseInt(selectedChurch));
-  //   // console.log('I should be hiding');
-  //   console.log(typeof selectedChurch);
   });
   $(document).click(function() {
     $('.dropdown-el').removeClass('expanded');
