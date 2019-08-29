@@ -11,19 +11,25 @@
   <%- include('../layout/header') %>
   <main>
     <div class="all">
-      <h1><i class="fas fa-user"></i>All Pastors</h1>
+      <div>
+        <h1>
+          <i class="fas fa-user"></i>
+        </h1>
+        <h1>All Pastors</h1>
+      </div>
       <!-- TODO: Handle singluar vs plural when rendering -->
       <h6>There are currently <%=pastors.length %> pastors saved in the database</h6>
-      <ul class= "object.list">
+      <ul class= "object-list">
         <% pastors.forEach(pastor => { %>
         <li>
-          <h3><%= pastor.pastor_first_name %> and <%= pastor.spouse %> <%= pastor.pastor_last_name %></h3>
+          <h3><%= pastor.pastor_first_name %> and <%= pastor.spouse %> <%= pastor.pastor_last_name %> - <%= pastor.name %></h3>
           <!-- TODO: Do a join?? to pull in church name and location? to pastors table or reference separate table based on id?-->
-          <h4>Church Name</h4>
-          <button><a href="/pastor/<%= pastor.id %>">Details</a></button>
-          <!-- TODO: Add href links for update and delete routes/functionality -->
-          <button>Update</button>
-          <button>Delete</button>
+          <div class="buttons">
+            <button><a href="/pastor/<%= pastor.id %>">Details</a></button>
+            <!-- TODO: Add href links for update and delete routes/functionality -->
+            <button><a>Update</a></button>
+            <button><a>Delete</a></button>
+          </div>
         </li>
         <% }) %>
       </ul>

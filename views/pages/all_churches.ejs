@@ -11,19 +11,29 @@
   <%- include('../layout/header') %>
   <main>
     <div class="all">
-      <h1><i class="fas fa-church"></i>All Churches</h1>
+      <div>
+          <h1>
+            <i class="fas fa-church"></i>
+          </h1>
+          <h1>All Churches</h1>
+      </div>
       <!-- TODO: Handle singluar vs plural when rendering -->
       <h6>There are currently <%=churches.length %> churches saved in the database</h6>
-      <ul class= "object.list">
+      <ul class= "object-list">
         <% churches.forEach(church => { %>
-        <li>
-          <h3><%= church.name %></h3>
-          <h4><%= church.location %></h4>
-          <button><a href="/church/<%= church.id %>">Details</a></button>
-          <!-- TODO: Add href links for update and delete routes/functionality -->
-          <button>Update</button>
-          <button>Delete</button>
-        </li>
+          <!-- TODO: Setup a redirect from church/1 to all_churches -->
+          <% if(church.name === 'Unassigned'){ %> 
+          <% } else { %>
+          <li>
+            <h3><%= church.name %> - <%= church.location %></h3>
+            <div class="buttons">
+              <button><a href="/church/<%= church.id %>">Details</a></button>
+              <!-- TODO: Add href links for update and delete routes/functionality -->
+              <button><a>Update</a></button>
+              <button><a>Delete</a></button>
+            </div>
+          </li>
+          <% } %>
         <% }) %>
       </ul>
     </div>

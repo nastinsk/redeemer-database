@@ -3,7 +3,7 @@
   overflow-y: scroll;
   overflow: visible;
   position: sticky; 
-  padding: 2rem 0;
+  padding: .5rem 0;
   margin-bottom: 8rem;
   /* background-color: #2D3227; */
   background-color:rgb(0,0,0,.8);
@@ -17,4 +17,88 @@
   justify-content: center;
   border: 6px outset white;
   box-shadow: 5px 5px 2px 1px black;
+}
+
+.all > div {
+  display: flex;
+  flex-direction: column;
+  font-size: 4rem;
+  align-items: center;
+  padding: 1rem 2rem 0 2rem;
+
+}
+
+.hide {
+  display: none;
+}
+
+.all > div > h1 {
+  padding: .5rem 0;
+  margin: 0;
+}
+
+.all > div > h1 > i {
+  padding: 0;
+}
+.all > h6 {
+  margin: 0 0 1.5rem 0;
+  width: 90%;
+  text-align: center;
+  border-top: 3px solid white;
+  border-bottom: 3px solid white;
+  padding: 1rem 0;
+}
+
+.object-list {
+  width: 80%;
+  margin-bottom: 2rem;
+}
+
+.object-list > li > h3 {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5rem;
+}
+.object-list > li {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5rem 0;
+  border-bottom: 1px solid white;
+}
+
+.buttons {
+  font-size: 1rem;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  align-self: flex-end;
+  padding-right: 1rem;
+}
+
+.buttons > button {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5rem;
+  border: 3px white solid;
+  margin-left: .3rem;
+  background-color: #BE5347;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem 2rem;
+
+}
+
+.buttons > button > a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: white;
+}
+
+.buttons > button > a:active {
+  text-decoration: none;
+  color: white;
 }

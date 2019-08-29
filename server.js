@@ -90,27 +90,26 @@ function homePage(request, response) {
 // TODO: Can allChurches and allPastors be made into 1 function?
 function allChurches(request, response) {
   let SQL = 'SELECT * FROM churches ORDER BY name ASC;'
-  console.log('i am here');
   return client.query(SQL)
     .then(results => {
       if (results.rows.rowCount === 0) {
         response.render('pages/add');
       } else {
         response.render('pages/all_churches', { churches: results.rows })
-        console.log(SQL, 'hi')
       }
     })
     .catch(err => handleError(err, response));
 }
   
 function allPastors(request, response) {
-  let SQL = 'SELECT * FROM pastors ORDER BY pastor_last_name ASC;'
+  let SQL = 'SELECT pastors.id, pastors.pastor_first_name, pastors.pastor_last_name, pastors.spouse, pastors.pastor_story, pastors.spouse_story, pastors.image_url, pastors.family_marriage, pastors.prayer_needs, pastors.church_id, churches.name, churches.location FROM pastors LEFT JOIN churches ON pastors.church_id = churches.id ORDER BY pastor_last_name ASC;'
 
   return client.query(SQL)
     .then(results => {
       if (results.rows.rowCount === 0) {
         response.render('pages/add');
       } else {
+        console.log('results:', results.rows)
         response.render('pages/all_pastors', { pastors: results.rows })
       }
     })
@@ -144,10 +143,8 @@ function addChurch(request, response) {
 }
 
 function addPastor(request, response) {
-  console.log('here!')
   let { pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id} = request.body;
 
-  console.log(request.body);
 
   let SQL = 'INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;'
 
@@ -155,7 +152,6 @@ function addPastor(request, response) {
 
   client.query(SQL, values)
     .then(result =>  {
-      console.log(result)
       response.redirect(`/pastor/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
