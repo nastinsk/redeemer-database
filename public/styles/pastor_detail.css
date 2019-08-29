@@ -149,11 +149,16 @@
   border: 2px white solid;
 }
 
-.details > div > p {
-  padding: .5rem 2rem;
+.details > div > div > p {
+  padding: 0 2rem;
   line-height: 1.5rem;
-  text-align: center;
+  margin-top: .75rem;
+  text-align: start;
   font-size: 1.25rem;
+}
+
+.details > div > div > h6 {
+  margin-bottom: .75rem;
 }
 
 .detail-buttons {
