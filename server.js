@@ -66,7 +66,6 @@ function getSinglePastor(request, response) {
   getChurchList()
     .then(churches => {
       let SQL = 'SELECT pastors.*, churches.name, churches.location FROM pastors INNER JOIN churches on pastors.church_id = churches.id WHERE pastors.id=$1;';
-
       let values = [request.params.id];
 
       client.query(SQL, values)
@@ -75,8 +74,9 @@ function getSinglePastor(request, response) {
         
         response.render('pages/show_single_pastor', { pastor: result.rows[0], churches: churches.rows, church: church})
       })
-        .catch(err => handleError(err, response));
+      .catch(err => handleError(err, response));
     })
+    .catch(err => handleError(err, response));
   }
 
 // Retrieve and Render a single book
