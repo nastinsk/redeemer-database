@@ -18,7 +18,7 @@
           <h1>All Churches</h1>
       </div>
       <!-- TODO: Handle singluar vs plural when rendering -->
-      <h6>There are currently <%=churches.length %> churches saved in the database</h6>
+      <h6>There are currently <%=churches.length-1 %> churches saved in the database</h6>
       <ul class= "object-list">
         <% churches.forEach(church => { %>
           <!-- TODO: Setup a redirect from church/1 to all_churches -->
@@ -30,7 +30,10 @@
               <button><a href="/church/<%= church.id %>">Details</a></button>
               <!-- TODO: Add href links for update and delete routes/functionality -->
               <button><a>Update</a></button>
-              <button><a>Delete</a></button>
+              <form action="/church/<%=church.id%>" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete">
+              </form>
             </div>
           </li>
           <% } %>

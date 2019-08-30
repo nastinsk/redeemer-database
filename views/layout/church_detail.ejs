@@ -1,7 +1,7 @@
 <section id="single-church-info">
   <div class="church-info-title">
     <i class="fas fa-church church-icon"></i>
-    <h2><%= church.name %></h2>
+    <h2><%= church %></h2>
   </div>
   <div class="church-info">
     <!-- TODO: Link Pastors Table as a display field -->
@@ -46,6 +46,9 @@
   </div>
   <div class="detail-buttons">
     <button>Update</button>
-    <button>Delete</button>
+    <form action="/church/<%=church.id%>" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Delete">
+    </form>
   </div>
 </section>

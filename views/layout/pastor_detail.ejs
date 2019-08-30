@@ -55,6 +55,9 @@
   </div>
   <div class="detail-buttons">
     <button>Update</button>
-    <button>Delete</button>
+    <form action="/pastor/<%=pastor.id%>" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Delete">
+    </form>
   </div>
 </section>
