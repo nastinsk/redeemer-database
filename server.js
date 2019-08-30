@@ -44,30 +44,39 @@ app.get('/church/:id', getSingleChurch);
 app.get('/pastor/:id', getSinglePastor);
 app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
-// app.post('/searches', createSearch);
-// app.get('/searches/new', newSearch);
-// app.get('/books/:id', getBook);
-// app.post('/books', createBook);
-// app.put('/books/:id', updateBook);
-// app.delete('/books/:id', deleteBook);
+app.delete('/church/:id', deleteRecord);
+app.delete('/pastor/:id', deleteRecord);
 
+// app.put('/books/:id', updateBook);
 app.get('*', (request, response) => response.status(404).send(
   '<body style="background-color: black; display: flex; flex-direction: row; justify-content: center; align-content: center;"><img style="height: 50vw;" src="https://miro.medium.com/max/1081/1*VYPlqLaosLszAtKlx5fHzg.jpeg"/></body>'));
+  
+  function deleteRecord(request, response) {
+    getPath(request, response)
+    .then
+    if(request.route.path === 'church'){
 
-function getSingleChurch(request, response) {
-  let SQL = 'SELECT * FROM churches WHERE id=$1;';
-      let values = [request.params.id];
-      client.query(SQL, values)
-        .then(result => response.render('pages/show_single_church', { church: result.rows[0]}))
-        .catch(err => handleError(err, response));
-}
+    } else if (request.route.path === 'pastor') {
 
-function getSinglePastor(request, response) {
-  getChurchList()
+    } else {
+      // .catch(err => handleError(err, response));
+    }
+  }
+  
+  function getSingleChurch(request, response) {
+    let SQL = 'SELECT * FROM churches WHERE id=$1;';
+    let values = [request.params.id];
+    client.query(SQL, values)
+    .then(result => response.render('pages/show_single_church', { church: result.rows[0]}))
+    .catch(err => handleError(err, response));
+  }
+  
+  function getSinglePastor(request, response) {
+    getChurchList()
     .then(churches => {
       let SQL = 'SELECT pastors.*, churches.name, churches.location FROM pastors INNER JOIN churches on pastors.church_id = churches.id WHERE pastors.id=$1;';
       let values = [request.params.id];
-
+      
       client.query(SQL, values)
       .then(result => {
         let church = churches.rows.find(church => church.id ===parseInt(result.rows[0].church_id));
@@ -78,42 +87,32 @@ function getSinglePastor(request, response) {
     })
     .catch(err => handleError(err, response));
   }
-
-// Retrieve and Render a single book
-// function getBook(request, response) {
-//   getBookshelves()
-//     .then(shelves => {
-
-//       let SQL = 'SELECT books.*, bookshelves.name FROM books INNER JOIN bookshelves on books.bookshelf_id=bookshelves.id WHERE books.id=$1;';
-//       let values = [request.params.id];
-//       client.query(SQL, values)
-//         .then(result => {
-//           let shelf = shelves.rows.find(shelf => shelf.id === parseInt(result.rows[0].bookshelf_id));
-//           response.render('pages/books/show', { book: result.rows[0], bookshelves: shelves.rows, shelfName: shelf })
-//         })
-//         .catch(err => handleError(err, response));
-//     })
-// }
-
-// Turn the server On
-app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
-
-// HELPER FUNCTIONS
-
-// Retrieve churches from database
-function getChurchList() {
-  let SQL = 'SELECT DISTINCT id, name, location FROM churches ORDER BY name;';
-
-  return client.query(SQL);
-}
-
-// Home Page
-function homePage(request, response) {
-  response.render('pages/index');
-}
-
-// TODO: Can allChurches and allPastors be made into 1 function?
-function allChurches(request, response) {
+  
+  // Turn the server On
+  app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+  
+  // HELPER FUNCTIONS
+  
+  function getPath(request,response) {
+    let currentPath = request.path
+    let regex = /\/(.*?)\//;
+    let path = currentPath.match(regex);
+    return path[1]
+  }
+  // Retrieve churches from database
+  function getChurchList() {
+    let SQL = 'SELECT DISTINCT id, name, location FROM churches ORDER BY name;';
+    
+    return client.query(SQL);
+  }
+  
+  // Home Page
+  function homePage(request, response) {
+    response.render('pages/index');
+  }
+  
+  // TODO: Can allChurches and allPastors be made into 1 function?
+  function allChurches(request, response) {
   let SQL = 'SELECT * FROM churches ORDER BY name ASC;'
   return client.query(SQL)
     .then(results => {
@@ -150,8 +149,7 @@ function addSelection(request, response) {
 
 function addChurch(request, response) {
 
-  
-  let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:red%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
+  let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
   // console.log(map_url); //comment back in to get google map URL
   
   let { name, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community } = request.body;
@@ -181,6 +179,8 @@ function addPastor(request, response) {
     })
     .catch(err => handleError(err, response));
 }
+
+
 // // Load pastors from Database
 // function getPastors(request, response) {
 //   let SQL = 'SELECT * FROM pastors;';
