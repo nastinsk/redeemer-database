@@ -254,13 +254,16 @@ form > p {
   font-size: 1.25rem;
 }
 .dropdown-el label:nth-child(2) {
-  margin-top: 2em;
+  margin-top: 3em;
   border-top: .06em inset #BE5347;
+  
 }
 .dropdown-el input:checked + label {
   display: block;
   border-top: none;
   position: absolute;
+  height: 2.5em;
+  line-height: 2.5em;
   top: 0;
   width: 100%;
 }
