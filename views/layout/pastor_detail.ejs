@@ -65,16 +65,17 @@
 </section>
 
 <section id="single-pastor-edit-form" class="single-pastor-info hide-me">
-  <form action="/pastor/<%=pastor.id%>" method="POST">
+  <form action="/pastor/<%= pastor.id %>" method="POST">
+    <input type="hidden" name="_method" value="PUT">
     <div class="pastor-info-title">
       <i class="fas fa-user pastor-icon"></i>
       <h2>Pastor <input type="text" name="pastor_first_name" value="<%= pastor.pastor_first_name %>"> <input type="text" name="pastor_last_name" value="<%= pastor.pastor_last_name %>"></h2>
     </div>
   <div class="pastor-info">
     <!-- TODO: Link Church Name Table as a display field -->
-    <h6>Spouse: <input type="text" name="spouse_first_name" value="<%= pastor.spouse %>"> <%= pastor.pastor_last_name %></h6>
+    <h6>Spouse: <input type="text" name="spouse" value="<%= pastor.spouse %>"> <%= pastor.pastor_last_name %></h6>
     <img id="photo" src="<%= pastor.image_url %>"/>
-    <input type="text" name="pastor.iamge_url" value="<%= pastor.image_url %>">
+    <input type="text" name="image_url" value="<%= pastor.image_url %>">
   </div>
     <div class="details">
 
@@ -84,13 +85,11 @@
           <h6>Current Selection in Database</h6>
           <p><%= church.name %> - <%= church.location %></p>
           <span class="dropdown-el">
-              <input type="radio" name="church_id" value="1" checked="checked" id="<%= church.id %>"><label for="<%= church.id %>"><%= church.name %> - <%=church.location %></label>
+              <input type="radio" name="church_id" value="<%= church.id %>" checked="checked" id="<%= church.church_id %>"><label for="<%= church.church_id %>"><%= church.name %> - <%=church.location %></label>
     
               <% churches.forEach(churchItem => { %>
-                <% if (church.id === churchItem.id) { %>
-                  <input type="hidden" name="church_id" value="<%= churchItem.id %>" id="<%= churchItem.id %>">
-              <% } else { %>
-                <input type="radio" name="church_id" value="<%= churchItem.id %>" id="<%= churchItem.id %>"><label id="church-<%= churchItem.id %>" for="<%= churchItem.id %>"><%= churchItem.name %> - <%= churchItem.location %></label>
+                <% if (church.id !== churchItem.id) { %>
+                  <input type="radio" name="church_id" value="<%= churchItem.id %>" id="<%= churchItem.id %>"><label id="church-<%= churchItem.id %>" for="<%= churchItem.id %>"><%= churchItem.name %> - <%= churchItem.location %></label>
                 <% } %>
               <% }) %>
             </span>
@@ -103,7 +102,7 @@
           <p><%= pastor.pastor_story[i] %></p> 
           <% } %>
 
-          <textarea type="text" name="pastor_story" cols="30" rows="5"><%=pastor.pastor_story.join().replace(/999999/g , '\r\n\r\n') %></textarea>
+          <textarea type="text" name="pastor_story" cols="30" rows="5"><%=pastor.pastor_story.join('999999').replace(/999999/g , '\r\n\r\n') %></textarea>
         </div>
 
         <div>
@@ -113,7 +112,7 @@
             <p><%= pastor.spouse_story[i] %></p> 
             <% } %>
 
-            <textarea type="text" name="spouse_story" cols="30" rows="5"><%=pastor.spouse_story.join().replace(/999999/g , '\r\n\r\n') %></textarea>
+            <textarea type="text" name="spouse_story" cols="30" rows="5"><%=pastor.spouse_story.join('999999').replace(/999999/g , '\r\n\r\n') %></textarea>
 
         </div>
         <div>
@@ -142,8 +141,8 @@
   </div>
   <div class="detail-buttons">
     <!-- TODO: Fix consistent styling on the update button -->
-    <input type="hidden" name="_method" value="PUT">
-    <button type="submit">Save Changes</button>
+    <input type="submit">Save Changes</input>
+    <button id="cancel-change">Cancel</button>
     </form>
   </div>
 </form>
