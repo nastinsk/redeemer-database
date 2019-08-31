@@ -4,12 +4,17 @@
 $('.add-church-form').hide();
 $('.add-pastor-form').hide();
 
+// TODO: Determine if I want to hide the line-break... Could move where the div is and hide/show it before the toggle it was not affected by the div being toggled. Might solve the delay problem.
+
+$('.line-break').hide();
+
 $('.add-church-button').on('click', function () {
   if($('.add-pastor-button').hasClass('selected') === true){
     $('.add-pastor-form').hide();
     $('.add-pastor-button').removeClass('selected');
+    // $('.line-break').show();
   }
-  $('.add-church-form').toggle();
+  $('.add-church-form').slideToggle(700);
   $('.add-church-button').toggleClass('selected');
 })
 
@@ -18,7 +23,7 @@ $('.add-pastor-button').on('click', function () {
     $('.add-church-form').hide();
     $('.add-church-button').removeClass('selected');
   }
-  $('.add-pastor-form').toggle();
+  $('.add-pastor-form').slideToggle(1000);
   $('.add-pastor-button').toggleClass('selected');
 })
 
