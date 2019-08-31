@@ -110,6 +110,7 @@ app.get('*', (request, response) => response.status(404).send(
     let path = currentPath.match(regex);
     return path[1]
   }
+  
   // Retrieve churches from database
   function getChurchList() {
     let SQL = 'SELECT DISTINCT id, name, location FROM churches ORDER BY name;';
