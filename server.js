@@ -103,6 +103,23 @@ app.get('*', (request, response) => response.status(404).send(
   app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
   
   // HELPER FUNCTIONS
+
+  // Pastors Constructor
+  function Pastor(input) {
+    const lineBreak = '\r\n\r\n';
+    const lineBreakReplacement = ', ';
+    this.pastor_first_name = input.pastor_first_name;
+    this.pastor_last_name = input.pastor_last_name;
+    this.spouse = input.spouse ? input.spouse : 'Not Married';
+    this.pastor_story = '{' + input.pastor_story.replace(lineBreak, lineBreakReplacement) + '}';
+    this.spouse_story = '{' + input.spouse_story.replace(lineBreak, lineBreakReplacement) + '}';
+    this.image_url = input.image_url;
+    this.family_marriage = '{' + input.family_marriage.replace(lineBreak, lineBreakReplacement) + '}';
+    this.prayer_needs = '{' + input.prayer_needs.replace(lineBreak, lineBreakReplacement) + '}';
+    this.church_id = input.church_id;
+  }
+  // Churches Constructor
+  // function Church(input)
   
   function getPath(request,response) {
     let currentPath = request.path
@@ -161,6 +178,8 @@ function addSelection(request, response) {
 
 function addChurch(request, response) {
 
+  // console.log(request.body);
+
   let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
   // console.log(map_url); //comment back in to get google map URL
   
@@ -170,23 +189,38 @@ function addChurch(request, response) {
 
   let values = [name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community];
 
+  console.log(values, 'church')
+  console.log(SQL, 'church')
+
   client.query(SQL, values)
+    console.log(values, 'church')
+    console.log(SQL, 'church')
     .then(result =>  {
+      console.log(result, 'church result');
       response.redirect(`/church/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
 }
 
 function addPastor(request, response) {
-  let { pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id} = request.body;
+
+  // console.log(request.body.pastor_first_name);
+
+  // console.log(new Pastor(request.body));
+  let pastor = new Pastor(request.body);
+  // let { pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id} = request.body;
 
 
   let SQL = 'INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;'
 
-  let values = [pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id[0]];
+  let values = [pastor.pastor_first_name, pastor.pastor_last_name, pastor.spouse, pastor.pastor_story, pastor.spouse_story, pastor.image_url, pastor.family_marriage, pastor.prayer_needs, pastor.church_id];
+
+  console.log(values, 'pastor')
+  console.log(SQL, 'pastor')
 
   client.query(SQL, values)
     .then(result =>  {
+      console.log(result, 'result')
       response.redirect(`/pastor/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
