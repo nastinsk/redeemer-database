@@ -6,7 +6,6 @@
   <div class="church-info">
     <!-- TODO: Link Pastors Table as a display field -->
     <h6><%= church.location %></h6>
-    <!-- TODO: Display a map from Google Maps API using LAT/LONG Coordinates -->
     <img id="map" src="<%= church.map_url %>"/>
     <div class="info-container">
       <div id="coordinates">
@@ -20,10 +19,11 @@
           <li><%= church.church_members %> Adults</li>
           <li><%= church.sunday_school %> Sunday School Children</li>
           <li><%= church.pre_school %> Preschool Children</li>
-          <!-- TODO: Add a for loop that adds a class to hide/show li if text content === 'NA' -->
+
           <% if(church.feeding_program !== 'NA'){ %> 
             <li id="feeding"><%= church.feeding_program %> Feeding Program Children</li>
-         <% } %>
+          <% } %>
+          
         </ul>
       </div>
     </div>
@@ -45,7 +45,11 @@
     </div>
   </div>
   <div class="detail-buttons">
+      <!-- TODO: Fix consistent styling on the update button -->
     <button>Update</button>
-    <button>Delete</button>
+    <form action="/church/<%=church.id%>" method="POST">
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Delete">
+    </form>
   </div>
 </section>

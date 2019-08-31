@@ -52,15 +52,26 @@ app.get('*', (request, response) => response.status(404).send(
   '<body style="background-color: black; display: flex; flex-direction: row; justify-content: center; align-content: center;"><img style="height: 50vw;" src="https://miro.medium.com/max/1081/1*VYPlqLaosLszAtKlx5fHzg.jpeg"/></body>'));
   
   function deleteRecord(request, response) {
-    getPath(request, response)
-    .then
-    if(request.route.path === 'church'){
-
-    } else if (request.route.path === 'pastor') {
-
-    } else {
-      // .catch(err => handleError(err, response));
+    
+    let database = '';
+    function getDatabase(path)  {
+      if(path === 'church') {
+        database = 'churches'
+      } else if (path === 'pastor'){
+          database = 'pastors'
+        }
+      return database;
     }
+
+    let current= getDatabase(getPath(request, response))
+
+    let SQL = `DELETE FROM ${current} WHERE id=$1;`;
+    console.log(SQL)
+    let values = [request.params.id];
+    
+      return client.query(SQL, values)
+        .then(response.redirect(`/all_${current}`))
+        .catch(err => handleError(err, response));
   }
   
   function getSingleChurch(request, response) {
@@ -99,6 +110,7 @@ app.get('*', (request, response) => response.status(404).send(
     let path = currentPath.match(regex);
     return path[1]
   }
+  
   // Retrieve churches from database
   function getChurchList() {
     let SQL = 'SELECT DISTINCT id, name, location FROM churches ORDER BY name;';
