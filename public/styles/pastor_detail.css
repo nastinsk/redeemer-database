@@ -1,4 +1,4 @@
-#single-pastor-info {
+.single-pastor-info {
   margin-top: 12rem;
   overflow-y: scroll;
   overflow: visible;
@@ -47,7 +47,7 @@
 
 }
 
-#map {
+#photo {
   max-width: 60%;
   max-height: 30%;
   width: auto;
