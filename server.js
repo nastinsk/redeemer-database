@@ -119,7 +119,21 @@ app.get('*', (request, response) => response.status(404).send(
     this.church_id = input.church_id;
   }
   // Churches Constructor
-  // function Church(input)
+  function Church(input, map) {
+    const lineBreak = '\r\n\r\n';
+    const lineBreakReplacement = ', ';
+    this.name = input.name;
+    this.map_url = map;
+    this.longitude = input.longitude;
+    this.latitude = input.latitude;
+    this.location = input.location;
+    this.church_members = input.church_members;
+    this.sunday_school = input.sunday_school;
+    this.pre_school = input.pre_school;
+    this.feeding_program = input.feeding_program;
+    this.description = '{' + input.description.replace(lineBreak, lineBreakReplacement) + '}';
+    this.community = '{' + input.community.replace(lineBreak, lineBreakReplacement) + '}';
+  }
   
   function getPath(request,response) {
     let currentPath = request.path
@@ -178,49 +192,36 @@ function addSelection(request, response) {
 
 function addChurch(request, response) {
 
-  // console.log(request.body);
+  let map = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
 
-  let map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
-  // console.log(map_url); //comment back in to get google map URL
+  console.log(map)
   
-  let { name, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community } = request.body;
+  let church = new Church(request.body, map);
+
+  console.log(church)
+  
+  // let { name, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community } = request.body;
 
   let SQL = 'INSERT INTO churches(name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id;'
 
-  let values = [name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community];
-
-  console.log(values, 'church')
-  console.log(SQL, 'church')
+  let values = [church.name, church.longitude, church.latitude, church.map_url, church.location, church.church_members, church.sunday_school, church.pre_school, church.feeding_program, church.description, church.community];
 
   client.query(SQL, values)
-    console.log(values, 'church')
-    console.log(SQL, 'church')
     .then(result =>  {
-      console.log(result, 'church result');
       response.redirect(`/church/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
 }
 
 function addPastor(request, response) {
-
-  // console.log(request.body.pastor_first_name);
-
-  // console.log(new Pastor(request.body));
   let pastor = new Pastor(request.body);
-  // let { pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id} = request.body;
-
 
   let SQL = 'INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, spouse_story, image_url, family_marriage, prayer_needs, church_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id;'
 
   let values = [pastor.pastor_first_name, pastor.pastor_last_name, pastor.spouse, pastor.pastor_story, pastor.spouse_story, pastor.image_url, pastor.family_marriage, pastor.prayer_needs, pastor.church_id];
 
-  console.log(values, 'pastor')
-  console.log(SQL, 'pastor')
-
   client.query(SQL, values)
     .then(result =>  {
-      console.log(result, 'result')
       response.redirect(`/pastor/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
