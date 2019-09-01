@@ -33,14 +33,19 @@
             <i class="fas fa-user"></i>  
           </button>
 
-          <!-- <button class="add-minutes-button">
+          <button class="add-minutes-button">
               <h2>Add Meeting Minutes</h2>
               <i class="fas fa-file-alt"></i>
-          </button> -->
+          </button>
 
         </div>
 
         <!-- TODO: Store form inputs in local storage until submit button?? -->
+    
+        <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
         
         <form class="add-church-form" action="/new-church" method="post">
           
@@ -74,7 +79,10 @@
           
           <button type="submit">Add to Database</button>
       </form>
-
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
       <form class="add-pastor-form" action="/new-pastor" method="post">
 
         <div class="line-break"></div>
@@ -115,6 +123,80 @@
         
         <button type="submit">Add to Database</button>
       </form>
+
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+
+<form class="add-minutes-form" action="/new-minutes" method="post">
+
+  <div class="line-break"></div>
+
+  <div class = "form-title">
+    <h3><i class="fas fa-file-alt"></i>Add New Meeting Minutes to the Database</h3>
+  </div>
+
+    <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
+
+  <input type="date" name="date" placeholder="MM/DD/YYYY" required>
+  <input type="text" name="start_time" placeholder="12:00 AM" required>
+  <input type="text" name="end_time" placeholder="12:00 AM" required>
+
+  <input type="text" name="venue" placeholder="Venue of Meeting" required>
+
+  <input type="text" name="meeting-host" placeholder="Meeting Host" required>
+  
+  <div class="attendees">
+    <h3>Meeting Attendees</h3>
+    
+    <ol>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+    </ol>
+
+    <button class="add">Add Additional Attendees</button>
+  </div>
+
+  <h3>Reporting:</h3>
+  <% churchList.forEach(church => { %>
+    <% if(church.id !== 1) { %>
+      <h6><%= church.name %> - <%= church.location %></h6>
+
+      <input type="hidden" name="church_id" value="<%= church.id %>" id="<%= church.id %>">
+
+      <textarea type="text" name="report" placeholder="Report" cols="30" rows="5" required></textarea>
+
+      <div class="prayer-requests">
+
+          <h6>Prayer Requests</h6>
+          
+          <ol>
+            <li><input type="text" name="prayer_requests" placeholder="Prayer Request" required></li>
+            <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
+            <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
+            <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
+            <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
+          </ol>
+      
+          <button class="add-prayer-request">Add More Prayer Requests</button>
+        </div>
+        
+        <h3>Other Matters</h3>
+        <ol>
+          <li><input type="text" name="other_matters" placeholder="Other Matters" required></li>
+        </ol>
+        <button class="add-more">Add Additional Items</button>
+    <% } %>
+    <input type="date" name="next_meeting" placeholder="MM/DD/YYYY" required>
+  <% }) %>
+  
+  <button type="submit">Add to Database</button>
+</form>
+
     </div>
   </main>
   <%- include('../layout/footer') %>

@@ -35,7 +35,7 @@ $('.add-church-button').on('click', function () {
     $('.add-pastor-button').removeClass('selected');
     // $('.line-break').show();
   }
-  $('.add-church-form').slideToggle(700);
+  $('.add-church-form').slideToggle(500);
   $('.add-church-button').toggleClass('selected');
 })
 
@@ -44,7 +44,7 @@ $('.add-pastor-button').on('click', function () {
     $('.add-church-form').hide();
     $('.add-church-button').removeClass('selected');
   }
-  $('.add-pastor-form').slideToggle(1000);
+  $('.add-pastor-form').slideToggle(500);
   $('.add-pastor-button').toggleClass('selected');
 })
 
