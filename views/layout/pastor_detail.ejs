@@ -65,7 +65,7 @@
 </section>
 
 <section id="single-pastor-edit-form" class="single-pastor-info hide-me">
-  <form action="/pastor/<%= pastor.id %>" method="POST">
+  <form action="/pastor/edit/<%= pastor.id %>" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <div class="pastor-info-title">
       <i class="fas fa-user pastor-icon"></i>
@@ -141,7 +141,7 @@
   </div>
   <div class="detail-buttons">
     <!-- TODO: Fix consistent styling on the update button -->
-    <input type="submit">Save Changes</input>
+    <button type="submit">Save Changes</button>
     <button id="cancel-change">Cancel</button>
     </form>
   </div>

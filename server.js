@@ -46,8 +46,8 @@ app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
 app.delete('/church/:id', deleteRecord);
 app.delete('/pastor/:id', deleteRecord);
-app.put('/pastor/:id', updateRecord);
-// app.put('/church/:id', updateRecord);
+app.put('/pastor/edit/:id', updateRecord);
+app.put('/church/edit/:id', updateRecord);
 
 app.get('*', (request, response) => response.status(404).send(
   '<body style="background-color: black; display: flex; flex-direction: row; justify-content: center; align-content: center;"><img style="height: 50vw;" src="https://miro.medium.com/max/1081/1*VYPlqLaosLszAtKlx5fHzg.jpeg"/></body>'));
@@ -82,9 +82,10 @@ app.get('*', (request, response) => response.status(404).send(
   
   // HELPER FUNCTIONS
   
+  // TODO: find a way to escape "" in text input
   // Pastors Constructor
   function Pastor(input) {
-    const lineBreak = '\r\n\r\n';
+    const lineBreak = /\r\n\r\n/g;
     const lineBreakReplacement = ', ';
     this.pastor_first_name = input.pastor_first_name;
     this.pastor_last_name = input.pastor_last_name;
@@ -96,12 +97,13 @@ app.get('*', (request, response) => response.status(404).send(
     this.prayer_needs = '{' + input.prayer_needs.replace(lineBreak, lineBreakReplacement) + '}';
     this.church_id = input.church_id;
   }
+
   // Churches Constructor
-  function Church(input, map) {
+  function Church(input) {
     const lineBreak = '\r\n\r\n';
-    const lineBreakReplacement = ', ';
+    const lineBreakReplacement = /, /g;
     this.name = input.name;
-    this.map_url = map;
+    this.map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${input.latitude}%2c%20${input.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${input.latitude},${input.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
     this.longitude = input.longitude;
     this.latitude = input.latitude;
     this.location = input.location;
@@ -169,16 +171,8 @@ app.get('*', (request, response) => response.status(404).send(
   }
   
   function addChurch(request, response) {
-    
-    let map = `https://maps.googleapis.com/maps/api/staticmap?center=${request.body.latitude}%2c%20${request.body.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${request.body.latitude},${request.body.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
-    
-    console.log(map)
-    
-    let church = new Church(request.body, map);
-    
-    console.log(church)
-    
-    // let { name, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community } = request.body;
+   
+    let church = new Church(request.body);
     
     let SQL = 'INSERT INTO churches(name, longitude, latitude, map_url, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id;'
     
@@ -198,6 +192,8 @@ app.get('*', (request, response) => response.status(404).send(
     
     let values = [pastor.pastor_first_name, pastor.pastor_last_name, pastor.spouse, pastor.pastor_story, pastor.spouse_story, pastor.image_url, pastor.family_marriage, pastor.prayer_needs, pastor.church_id];
     
+    console.log(values, 'what is the format?')
+    
     client.query(SQL, values)
     .then(result =>  {
       response.redirect(`/pastor/${result.rows[0].id}`)
@@ -208,30 +204,38 @@ app.get('*', (request, response) => response.status(404).send(
   // Update a single church or pastor
 function updateRecord(request, response) {
   let path = getPath(request, response);
-  
+  console.log(request.body)
   function getQueryInfo () {
     if(path === 'pastor'){
       let pastor = new Pastor(request.body);
       let SQL = `UPDATE pastors SET pastor_first_name=$1, pastor_last_name=$2, spouse=$3, pastor_story=$4, spouse_story=$5, image_url=$6, family_marriage=$7, prayer_needs=$8, church_id=$9 WHERE id=$10;`;
-      let pastorUpdate = [pastor, SQL];
+      
+      let values = [pastor.pastor_first_name, pastor.pastor_last_name, pastor.spouse, pastor.pastor_story, pastor.spouse_story, pastor.image_url, pastor.family_marriage, pastor.prayer_needs, pastor.church_id, request.params.id];
+
+      let pastorUpdate = [pastor, SQL, values];
       return pastorUpdate;
-    // } else if (path === 'church') {
-    //     let church = new Church(request.body);
-    //     let SQL = 
-    //     let churchUpdate = [church, SQL];
-    //     return churchUpdate;
-    // }
+
+    } else if (path === 'church') {
+
+        let church = new Church(request.body);
+        console.log(church)
+        let SQL = `UPDATE churches SET name=$1, map_url=$2, longitude=$3, latitude=$4, location=$5, church_members=$6, sunday_school=$7, pre_school=$8, feeding_program=$9, description=$10, community=$11 WHERE id=$12;`;
+
+        let values = [church.name, church.map_url, church.longitude, church.latitude, church.location, church.church_members, church.sunday_school, church.pre_school, church.feeding_program, church.description, church.community, request.params.id];
+
+        let churchUpdate = [church, SQL, values];
+        return churchUpdate;
     }
   }
-  let updateInfo= getQueryInfo();
+  let updateInfo = getQueryInfo();
   
-  let values = [updateInfo[0].pastor_first_name, updateInfo[0].pastor_last_name, updateInfo[0].spouse, updateInfo[0].pastor_story, updateInfo[0].spouse_story, updateInfo[0].image_url, updateInfo[0].family_marriage, updateInfo[0].prayer_needs, updateInfo[0].church_id, request.params.id];
-  console.log(client.query(updateInfo[1], values))
-  return client.query(updateInfo[1], values)
+
+  return client.query(updateInfo[1], updateInfo[2])
       .then(response.redirect(`/${path}/${request.params.id}`))
       .catch(err => handleError(err, response));
-
 }
+
+// }
   function deleteRecord(request, response) {
     
     let database = '';
