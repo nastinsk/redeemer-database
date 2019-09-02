@@ -84,10 +84,14 @@ h1 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 100%;
   margin-bottom: 2rem;
   
+}
+.button-container > button > h2 {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
 }
 
 .line-break {
@@ -106,12 +110,16 @@ h6 {
   margin-right: 6.3rem;
 }
 
+.button-container > button {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 button {
   background-color: #6b7d56;
   padding: .5rem 1rem;
   width: 30%;
   color: black;
-  font-weight: bolder;
+  font-weight: bold;
   border: 6px outset white;
   font-size: 1.5rem;
   /* TODO: Add a box shadow that looks like a 3D button press */
@@ -187,6 +195,11 @@ form > .form-title {
 
 form > .form-title  i {
   margin-right: 1rem;
+  font-size: 2.5rem;
+}
+
+form > .form-title > h3 {
+  font-family: 'Cinzel', serif;
 }
 
 form > p {
@@ -310,3 +323,155 @@ form > p {
   color: #BE5347;
   font-weight: bold;
 } */
+
+.add-minutes-form > div {
+  width: 100%;
+}
+
+#date, #time, #meeting-location {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  align-items: center;
+  /* flex: 1; */
+}
+
+#time > label, #meeting-location > label, #date > label {
+  /* flex: 1; */
+  display: flex;
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  margin-right: 1rem;
+}
+
+#time > input, #meeting-location > input, #date > input {
+  flex: 1;
+  display: flex;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  text-align: center;
+  padding: .3rem.5rem;
+}
+
+#time > label:nth-of-type(2), #meeting-location > label:nth-of-type(2) {
+  margin: 0 1rem 0 1rem;
+}
+
+#meeting-location {
+  margin-bottom: 0;
+}
+
+.add-minutes-form > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.75rem;
+}
+
+.attendees {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#attendee-list {
+  columns: 2 auto;
+  width: 90%;
+  margin-bottom: .75rem;
+}
+
+#attendee-list > li {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+#attendee-list > li > input {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .3rem .5rem;
+}
+
+#add-attendee {
+  width: 70%;
+}
+
+#general {
+  display: flex;
+  flex-direction: column;
+}
+
+.general-row, #sharing {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#sharing > h3 {
+  margin-right: 1rem;
+}
+
+#sharing > input {
+  flex: 1;
+  padding: .3rem .5rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.general-row > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+.general-row > input {
+  flex: 1;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .3rem .5rem;
+  margin-left: 1rem;
+}
+
+#general > div > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+#announcements {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+#announcements > h3 {
+  width: 100%;
+  text-align: center;
+}
+
+#announcements > textarea {
+  width: 100%;
+  border: none;
+  padding: .3rem 0;
+}
+
+#church-report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.church-report {
+  border: 2px white solid;
+  width: 90%;
+  margin-bottom: 2rem;
+  padding: 2rem;
+}
+
+.church-report:last-child {
+  margin-bottom: 0rem;
+}

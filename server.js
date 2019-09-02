@@ -129,6 +129,14 @@ function getChurchList() {
   return client.query(SQL);
 }
 
+//Retrieve pastors plus churches from database
+
+function getChurchesWithPastors() {
+  let SQL = 'SELECT pastors.pastor_first_name, pastors.pastor_last_name, pastors.church_id, churches.name, churches.location FROM pastors INNER JOIN churches on pastors.church_id = churches.id;';
+
+  return client.query(SQL);
+}
+
 // Home Page
 function homePage(request, response) {
   response.render('pages/index');
@@ -164,10 +172,17 @@ function allPastors(request, response) {
 }
 
 function addSelection(request, response) {
+
   getChurchList()
-    .then(churchList => {
-      response.render('pages/add', { churchList: churchList.rows });
-    })
+  .then(result => {
+    console.log(result)
+    getChurchesWithPastors()
+      .then(churchList => {
+        response.render('pages/add', { churchList: churchList.rows, distinctChurches: result.rows });
+      }) 
+      .catch(err => handleError(err, response));
+  })
+  .catch(err => handleError(err, response));
 }
 
 function addChurch(request, response) {
@@ -192,8 +207,6 @@ function addPastor(request, response) {
 
   let values = [pastor.pastor_first_name, pastor.pastor_last_name, pastor.spouse, pastor.pastor_story, pastor.spouse_story, pastor.image_url, pastor.family_marriage, pastor.prayer_needs, pastor.church_id];
 
-  console.log(values, 'what is the format?')
-
   client.query(SQL, values)
     .then(result => {
       response.redirect(`/pastor/${result.rows[0].id}`)
@@ -204,7 +217,6 @@ function addPastor(request, response) {
 // Update a single church or pastor
 function updateRecord(request, response) {
   let path = getPath(request, response);
-  console.log(request.body)
   function getQueryInfo() {
     if (path === 'pastor') {
       let pastor = new Pastor(request.body);
