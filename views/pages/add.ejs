@@ -206,7 +206,7 @@
       <input type="text" name="gods_message" placeholder="Name" required>
     </div>
     <div id="announcements">
-      <h3>Initial Announcements</h3>
+      <h3>Initial Announcements:</h3>
       <textarea type="text" name="general_notes" placeholder="Notes" cols="30" rows="3" required></textarea>
     </div>
   </div>
@@ -227,7 +227,7 @@
             <h6><%= church.name %> - <%= church.location %></h6>
 
           </div>
-          <div>
+          <div class="report">
 
             <h6>Report:</h6>
 
@@ -239,7 +239,7 @@
   
           <div class="prayer-requests">
 
-            <h6>Prayer Requests</h6>
+            <h6>Prayer Requests:</h6>
           
             <ol id="list-prayer-<%= church.id %>">
               <li><input type="text" name="prayer_requests" placeholder="Prayer Request" required></li>
@@ -262,7 +262,7 @@
 
   <div class="line-break"></div>
 
-  <div>
+  <div id="other-matters">
     <ol id="other-matters-list">
       <li><input type="text" name="other_matters" placeholder="Other Matters" required></li>
       <li><input type="text" name="other_matters" placeholder="Other Matters" ></li>
@@ -272,24 +272,25 @@
   </div>
 
   <div class="line-break"></div>
-  <h3>Closing Information</h3>
+  <h3>Closing</h3>
   <div class="line-break"></div>
 
-  <div>
+  <div id="closing">
     <div>
       <h6>Next Meeting Information</h6>
       <div>
         <label>Date:</label>
-        <input type="date" name="next_meeting" placeholder="MM/DD/YYYY" required>
+        <input id="date-input" type="date" name="next_meeting" placeholder="MM/DD/YYYY" required>
         <label>Time:</label>
         <input type="text" name="next_time" placeholder="12:00 AM" required>
       </div>
-      <div>
+      <div id="closing-location">
         <label>Location:</label>
         <input type="text" name="next_location" placeholder="Venue" required>
       </div>
     </div>
-    <div>
+    <div class="line-break"></div>
+    <div id="closing-prayer">
       <h3>Closing Prayer By:</h3>
       <input type="text" name="closing_prayer" placeholder="Name" required>
     </div>

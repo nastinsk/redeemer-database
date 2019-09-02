@@ -71,7 +71,7 @@ button {
   width: 50%;
   padding: .5rem 1rem;
   color: black;
-  font-weight: bolder;
+  /* font-weight: bolder; */
   border: 6px outset white;
   /* TODO: Add a box shadow that looks like a 3D button press */
   /* box-shadow: 5px 5px 2px 1px grey; */
