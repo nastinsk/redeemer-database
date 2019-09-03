@@ -60,7 +60,6 @@ function getSingleChurch(request, response) {
   let values = [request.params.id];
   client.query(SQL, values)
     .then(result => {
-      console.log(result.rows, 'churchresult.rows')
       response.render('pages/show_single_church', { church: result.rows[0] })
     })
     .catch(err => handleError(err, response));
@@ -84,8 +83,13 @@ function getSinglePastor(request, response) {
 }
 
 function getSingleMeeting(request, response) {
-  console.log('i made it!')
-  response.render('pages/index')
+  let SQL = 'SELECT * FROM meetings WHERE id=$1;';
+  let values = [request.params.id];
+  client.query(SQL, values)
+    .then(result => {
+      response.render('pages/show_single_meeting', { meeting: result.rows[0] })
+    })
+    .catch(err => handleError(err, response));
 }
 // Turn the server On
 app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
