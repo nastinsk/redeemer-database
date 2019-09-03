@@ -84,10 +84,14 @@ h1 {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 100%;
   margin-bottom: 2rem;
   
+}
+.button-container > button > h2 {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
 }
 
 .line-break {
@@ -100,18 +104,21 @@ h1 {
 h6 {
   font-family: 'Lato', sans-serif;
   font-size: 1.5rem;
-  font-style: italic;
   color: #BE5347;
   /* opacity: 1; */
   margin-right: 6.3rem;
 }
 
+.button-container > button {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 button {
   background-color: #6b7d56;
   padding: .5rem 1rem;
   width: 30%;
   color: black;
-  font-weight: bolder;
+  /* font-weight: bold; */
   border: 6px outset white;
   font-size: 1.5rem;
   /* TODO: Add a box shadow that looks like a 3D button press */
@@ -187,6 +194,11 @@ form > .form-title {
 
 form > .form-title  i {
   margin-right: 1rem;
+  font-size: 2.5rem;
+}
+
+form > .form-title > h3 {
+  font-family: 'Cinzel', serif;
 }
 
 form > p {
@@ -310,3 +322,310 @@ form > p {
   color: #BE5347;
   font-weight: bold;
 } */
+
+.add-minutes-form > div {
+  width: 100%;
+}
+
+#date, #time, #meeting-location {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  align-items: center;
+  /* flex: 1; */
+}
+
+#time > label, #meeting-location > label, #date > label {
+  /* flex: 1; */
+  display: flex;
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  margin-right: 1rem;
+}
+
+#time > input, #meeting-location > input, #date > input {
+  flex: 1;
+  display: flex;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  text-align: center;
+  padding: .519rem.5rem;
+}
+
+#date > input {
+  padding: .332rem .5rem;
+}
+
+#time > label:nth-of-type(2), #meeting-location > label:nth-of-type(2) {
+  margin: 0 1rem 0 1rem;
+}
+
+#meeting-location {
+  margin-bottom: 0;
+}
+
+.add-minutes-form > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.75rem;
+}
+
+.attendees {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#attendee-list {
+  columns: 2 auto;
+  width: 90%;
+  margin-bottom: .75rem;
+}
+
+#attendee-list > li {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+#attendee-list > li > input {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .644rem 0rem
+}
+
+#add-attendee {
+  width: 70%;
+}
+
+#general {
+  display: flex;
+  flex-direction: column;
+}
+
+.general-row, #sharing {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#sharing > h3 {
+  margin-right: 1rem;
+}
+
+#sharing > input {
+  flex: 1;
+  padding: .519rem .5rem;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.general-row > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+.general-row > input {
+  flex: 1;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .519rem .5rem;
+  margin-left: 1rem;
+}
+
+#general > div > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+#announcements {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+#announcements > h3 {
+  width: 100%;
+  /* text-align: center; */
+}
+
+#announcements > textarea {
+  width: 100%;
+  border: none;
+  padding: .3rem 0;
+}
+
+#church-report-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.church-report {
+  border: 2px white solid;
+  width: 90%;
+  margin-bottom: 2rem;
+  padding: 2rem;
+}
+
+.church-report:last-child {
+  margin-bottom: 0rem;
+}
+
+.church-report > div > h4 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  border-bottom: 1px solid white;
+  margin-bottom: .5rem;
+  padding-bottom: .5rem;
+}
+
+.church-report > div > h6 {
+  font-size: 1.25rem;
+  color: white;
+}
+
+.church-report > .report {
+  margin-top: 2rem;
+}
+
+.church-report > .report > h6 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.church-report > .report > textarea  {
+  margin: 0;
+  width: 100%;
+  border: none;
+  padding: .3rem 0;
+}
+
+.prayer-requests {
+  width: 100%;
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+}
+.prayer-requests > h6 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem !important;
+  /* text-align: center; */
+  /* width: 100%;  */
+  margin: 2rem 0 1rem 0;
+}
+
+.prayer-requests > ol {
+  width: 100%;
+}
+
+.prayer-requests > ol > li {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.prayer-requests > ol > li > input {
+  width: 100%;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .644rem 0rem;
+  border: none;
+}
+
+.prayer-requests > button {
+  width: 70%;
+  margin-top: 1rem;
+  align-self: center;
+}
+
+#other-matters {
+  display: flex;
+  flex-direction: column;
+}
+
+#other-matters > ol > li > input {
+  width: 100%;
+  border: none;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .644rem 0rem;
+}
+
+#other-matters > button {
+  align-self: center;
+  width: 70%;
+  margin-top: 1rem;
+}
+
+#closing {
+  display: flex;
+  flex-direction: column;
+}
+
+#closing > div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#closing > div > h6 {
+  margin-bottom: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: white;
+}
+
+#closing > div > div > label {
+  margin-right: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+}
+
+#closing > div > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+#closing-prayer > h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  margin-bottom: .5rem;
+}
+
+#closing > div > div > input, #closing > div > input  {
+  flex: 1;
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.25rem;
+  padding: .644rem 0rem;
+  border: none;
+
+}
+
+#date-input {
+  padding: .457rem 0rem !important;
+}
+#closing > div > div > label:nth-of-type(2) {
+  margin: 0 1rem 0 1rem;
+}
+
+/* #closing-location > input, #closing-prayer > input, #closing > div > div > input:nth-of-type(2) {
+  padding: .488rem 0rem !important;
+} */
+
+#closing-prayer > h3 {
+
+}

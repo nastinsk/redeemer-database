@@ -3,9 +3,11 @@
 //Toggle form show for church or pastor
 $('.add-church-form').hide();
 $('.add-pastor-form').hide();
+$('.add-minutes-form').hide();
+$('.add-budget-form').hide();
 $('#single-pastor-edit-form').hide();
 $('#single-church-edit-form').hide();
-$('.line-break').hide();
+// $('.line-break').hide();
 
 // TODO: Determine if I want to hide the line-break... Could move where the div is and hide/show it before the toggle it was not affected by the div being toggled. Might solve the delay problem.
 
@@ -28,12 +30,17 @@ $('#cancel-change').on('click', function() {
   $("#single-church").toggle();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 })
-
+// TODO: DRY up this code!
 $('.add-church-button').on('click', function () {
   if($('.add-pastor-button').hasClass('selected') === true){
     $('.add-pastor-form').hide();
     $('.add-pastor-button').removeClass('selected');
-    // $('.line-break').show();
+  } else if($('.add-minutes-button').hasClass('selected') === true){
+      $('.add-minutes-form').hide();
+      $('.add-minutes-button').removeClass('selected');
+  } else if($('.add-budget-button').hasClass('selected') === true){
+      $('.add-budget-form').hide();
+      $('.add-budget-button').removeClass('selected');
   }
   $('.add-church-form').slideToggle(700);
   $('.add-church-button').toggleClass('selected');
@@ -43,9 +50,45 @@ $('.add-pastor-button').on('click', function () {
   if($('.add-church-button').hasClass('selected') === true){
     $('.add-church-form').hide();
     $('.add-church-button').removeClass('selected');
+  } else if($('.add-minutes-button').hasClass('selected') === true){
+    $('.add-minutes-form').hide();
+    $('.add-minutes-button').removeClass('selected');
+  } else if($('.add-budget-button').hasClass('selected') === true){
+    $('.add-budget-form').hide();
+    $('.add-budget-button').removeClass('selected');
   }
-  $('.add-pastor-form').slideToggle(1000);
+  $('.add-pastor-form').slideToggle(700);
   $('.add-pastor-button').toggleClass('selected');
+})
+
+$('.add-budget-button').on('click', function () {
+  if($('.add-church-button').hasClass('selected') === true){
+    $('.add-church-form').hide();
+    $('.add-church-button').removeClass('selected');
+  } else if($('.add-minutes-button').hasClass('selected') === true){
+    $('.add-minutes-form').hide();
+    $('.add-minutes-button').removeClass('selected');
+  } else if($('.add-pastor-button').hasClass('selected') === true){
+    $('.add-pastor-form').hide();
+    $('.add-pastor-button').removeClass('selected');
+  }
+  $('.add-budget-form').slideToggle(700);
+  $('.add-budget-button').toggleClass('selected');
+})
+
+$('.add-minutes-button').on('click', function () {
+  if($('.add-church-button').hasClass('selected') === true){
+    $('.add-church-form').hide();
+    $('.add-church-button').removeClass('selected');
+  } else if($('.add-pastor-button').hasClass('selected') === true){
+    $('.add-pastor-form').hide();
+    $('.add-pastor-button').removeClass('selected');
+  } else if($('.add-budget-button').hasClass('selected') === true){
+    $('.add-budget-form').hide();
+    $('.add-budget-button').removeClass('selected');
+  }
+  $('.add-minutes-form').slideToggle(700);
+  $('.add-minutes-button').toggleClass('selected');
 })
 
 //Hamburger Menu
@@ -68,4 +111,23 @@ $('.add-pastor-button').on('click', function () {
 
   // console.log(window.location)
 
+
+  // Add/Remove input fields from the minutes form
+  $("#add-attendee").click(function (e) {  
+    e.preventDefault();
+    $("#attendee-list").append('<li><input type="text" name="attendees" placeholder="Attendee Name"</li>')
+    $("#attendee-list").append('<li><input type="text" name="attendees" placeholder="Attendee Name"</li>')
+  });
+
+  $(".prayer-add").click(function(e) {
+    e.preventDefault();
+    let id = $(this).attr('id')
+    let olId = `#list-${id}`;
+    $(olId).append('<li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>')
+  })
+
+  $(".add-more").click(function (e) {  
+    e.preventDefault();
+    $("#other-matters-list").append('<li><input type="text" name="other_matters" placeholder="Other Matters" ></li>')
+  });
 

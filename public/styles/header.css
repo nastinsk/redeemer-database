@@ -51,7 +51,7 @@ nav {
   color: white;
   width: 100%;
   font-size:3rem;
-  font-weight:bold;
+  /* font-weight:bold; */
   cursor:pointer;
   outline:none;
   z-index:10000000000000;
@@ -67,7 +67,7 @@ nav {
 
 .menu{
   z-index:1000000; 
-  font-weight:bold;
+  /* font-weight:bold; */
   position: absolute; 
   width:100%; 
   display: flex;

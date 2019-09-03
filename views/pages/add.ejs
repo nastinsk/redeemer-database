@@ -33,14 +33,28 @@
             <i class="fas fa-user"></i>  
           </button>
 
-          <!-- <button class="add-minutes-button">
+        </div>
+
+        <div class="button-container">
+
+          <button class="add-minutes-button">
               <h2>Add Meeting Minutes</h2>
               <i class="fas fa-file-alt"></i>
+          </button>
+
+          <!-- <button class="add-budget-button">
+              <h2>Add Annual Budget</h2>
+              <i class="fas fa-dollar-sign"></i>
           </button> -->
 
         </div>
 
         <!-- TODO: Store form inputs in local storage until submit button?? -->
+    
+        <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
         
         <form class="add-church-form" action="/new-church" method="post">
           
@@ -74,7 +88,10 @@
           
           <button type="submit">Add to Database</button>
       </form>
-
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
       <form class="add-pastor-form" action="/new-pastor" method="post">
 
         <div class="line-break"></div>
@@ -96,8 +113,8 @@
         <span class="dropdown-el">
           <input type="radio" name="church_id" value="1" checked="checked" id="Unaffiliated"><label for="Unaffiliated">Select a Church</label>
 
-          <% churchList.forEach(church => { %>
-            <input type="radio" name="church_id" value="<%= church.id %>" id="<%= church.id %>"><label id="church-<%= church.id %>" for="<%= church.id %>"><%= church.name %> - <%= church.location %></label>
+          <% distinctChurches.forEach(distinctChurch => { %>
+            <input type="radio" name="church_id" value="<%= distinctChurch.id %>" id="<%= distinctChurch.id %>"><label id="church-<%= distinctChurch.id %>" for="<%= distinctChurch.id %>"><%= distinctChurch.name %> - <%= distinctChurch.location %></label>
           <% }) %>
         </span>
 
@@ -115,6 +132,171 @@
         
         <button type="submit">Add to Database</button>
       </form>
+
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+
+<form class="add-minutes-form" action="/new-minutes" method="post">
+
+  <div class="line-break"></div>
+
+  <div class = "form-title">
+    <h3><i class="fas fa-file-alt"></i>Add New Meeting Minutes to the Database</h3>
+  </div>
+
+    <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
+  
+  <div class="line-break"></div>
+
+  <div>
+    <div id="date">
+      <label>Date of Meeting: </label>
+      <input type="date" name="date" placeholder="MM/DD/YYYY" required>
+    </div>
+    <div id="time">
+      <label>Start Time: </label>
+      <input type="text" name="start_time" placeholder="12:00 AM" required>
+      <label>End Time: </label>
+      <input type="text" name="end_time" placeholder="12:00 AM" required>
+    </div>
+    <div id="meeting-location">
+      <label>Location of Meeting:</label>
+      <input type="text" name="venue" placeholder="Name of Venue" required>
+      <label>Meeting Host:</label>
+      <input type="text" name="meeting_host" placeholder="Name" required>
+    </div>
+  </div>
+
+  <div class="line-break"></div>
+
+  <h3>Meeting Attendees</h3>
+
+  <div class="line-break"></div>
+
+  <div class="attendees">
+    
+    <ol id="attendee-list">
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name"></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name"></li>
+    </ol>
+
+    <button id="add-attendee"class="add">Add Additional Attendees</button>
+
+  </div>
+
+  <div class="line-break"></div>
+
+  <h3>Introductory Information</h3>
+
+  <div class="line-break"></div>
+
+  <div id="general">
+    <div class="general-row">
+      <h3>Opening Prayer By:</h3>
+      <input type="text" name="opening_prayer_by" placeholder="Name" required>
+    </div>
+    <div id="sharing">
+      <h3>Sharing of God's Word By:</h3>
+      <input type="text" name="gods_message_by" placeholder="Name" required>
+    </div>
+    <div id="announcements">
+      <h3>Initial Announcements:</h3>
+      <textarea type="text" name="general_notes" placeholder="Notes" cols="30" rows="3" required></textarea>
+    </div>
+  </div>
+
+  <div class="line-break"></div>
+
+  <h3>Individual Church Reporting</h3>
+
+  <div class="line-break"></div>
+
+  <div id="church-report-container">
+    <% churchList.forEach(church => { %>
+      <div class="church-report">
+        <% if(church.id !== 1) { %>
+          <div>
+
+            <h4>Pastor <%=church.pastor_first_name %> <%= church.pastor_last_name %></h4>
+            <h6><%= church.name %>, <%= church.location %></h6>
+
+          </div>
+          <div class="report">
+
+            <h6>Report:</h6>
+
+            <input type="hidden" name="church_id" value="<%= church.church_id %>" id="<%= church.church_id %>">
+    
+            <textarea type="text" name="report" placeholder="Report" cols="30" rows="5" required></textarea>
+
+          </div>
+  
+          <div class="prayer-requests">
+
+            <h6>Prayer Requests:</h6>
+          
+            <ol id="list-prayer-<%= church.church_id %>">
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request"></li>
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request"></li>
+            </ol>
+      
+            <button id="prayer-<%= church.church_id %>" class="prayer-add">Add More Prayer Requests</button>
+          </div>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+
+  <div class="line-break"></div>
+
+  <h3>Other Matters</h3>
+
+  <div class="line-break"></div>
+
+  <div id="other-matters">
+    <ol id="other-matters-list">
+      <li><input type="text" name="other_matters" placeholder="Other Matters" required></li>
+      <li><input type="text" name="other_matters" placeholder="Other Matters" ></li>
+      <li><input type="text" name="other_matters" placeholder="Other Matters" ></li>
+    </ol>
+    <button class="add-more">Add Additional Items</button>
+  </div>
+
+  <div class="line-break"></div>
+  <h3>Closing</h3>
+  <div class="line-break"></div>
+
+  <div id="closing">
+    <div>
+      <h6>Next Meeting Information</h6>
+      <div>
+        <label>Date:</label>
+        <input id="date-input" type="date" name="next_meeting" placeholder="MM/DD/YYYY" required>
+        <label>Time:</label>
+        <input type="text" name="next_time" placeholder="12:00 AM" required>
+      </div>
+      <div id="closing-location">
+        <label>Location:</label>
+        <input type="text" name="next_location" placeholder="Venue" required>
+      </div>
+    </div>
+    <div class="line-break"></div>
+    <div id="closing-prayer">
+      <h3>Closing Prayer By:</h3>
+      <input type="text" name="closing_prayer_by" placeholder="Name" required>
+    </div>
+  </div>
+  <div class="line-break"></div>
+  <button type="submit">Add to Database</button>
+</form>
+
     </div>
   </main>
   <%- include('../layout/footer') %>

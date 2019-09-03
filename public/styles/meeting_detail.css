@@ -1,4 +1,4 @@
-.single-pastor-info {
+.single-meeting-info {
   margin-top: 12rem;
   overflow-y: scroll;
   overflow: visible;
@@ -16,12 +16,12 @@
   border: 6px outset white;
   box-shadow: 5px 5px 2px 1px black;
 }
-.pastor-icon {
+.meeting-icon {
   font-size: 5rem;
   margin-right: 1.5rem;
   padding-bottom: .65rem;
 }
-.pastor-info-title {
+.meeting-info-title {
   display: flex;
   flex-direction: column;
   font-size: 4rem;
@@ -29,11 +29,11 @@
   padding: 2rem 2rem 0 2rem;
 
 }
-.pastor-info-title > h2 {
+.meeting-info-title > h2 {
   align-self: flex-end;
 }
 
-.pastor-info {
+.meeting-info {
   padding: 0 3rem 2rem 3rem;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@
   width: 90%;
 }
 
-.pastor-info > h6 {
+.meeting-info > h6 {
   margin: .5rem 0;
   font-size: 2rem;
 
