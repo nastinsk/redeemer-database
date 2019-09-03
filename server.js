@@ -270,18 +270,26 @@ function addPastor(request, response) {
 
 function addMinutes(request, response) {
   // console.log(request.body, 'this is the request');
-  let minutes = new Minutes(request.body);
+  let minutes = JSON.stringify(new Minutes(request.body));
   // console.log(minutes, 'i was constructed')
-  let SQL = 'INSERT INTO minutes (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id;';
+  let values = `'${minutes}'`
 
-  let values = [minutes.date, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
+  // let SQL = 'INSERT INTO minutes (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id;';
 
-  console.log(SQL, 'SQL')
-  console.log(values, 'values')
+  let SQL = `INSERT INTO meetings (data) VALUES(${values}) RETURNING id, data;`;
+  // console.log(SQL);
 
-  client.query(SQL, values)
+  // let values = [minutes.date, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
+
+  
+
+  // let values = `'${minutes}'`;
+  // console.log(SQL, 'SQL')
+  // console.log(values, 'values')
+
+  client.query(SQL)
     .then(result => {
-        console.log(result);
+        console.log(result.rows);
       response.redirect(`/minutes/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));

@@ -28,24 +28,28 @@ CREATE TABLE IF NOT EXISTS pastors (
   church_id INT REFERENCES churches(id)
 );
 
+-- CREATE TABLE IF NOT EXISTS meetings (
+--   id SERIAL PRIMARY KEY,
+--   date TEXT,
+--   start_time TIME,
+--   end_time TIME,
+--   venue VARCHAR(255),
+--   meeting_host VARCHAR(255),
+--   attendees TEXT[],
+--   opening_prayer_by VARCHAR(255),
+--   gods_message_by VARCHAR(255),
+--   general_notes TEXT,
+--   church_reports TEXT[],
+--   other_matters TEXT[],
+--   next_meeting DATE,
+--   next_time TIME,
+--   next_location VARCHAR(255),
+--   closing_prayer_by VARCHAR(255)
+-- );
 CREATE TABLE IF NOT EXISTS meetings (
-  id SERIAL PRIMARY KEY,
-  date DATE,
-  start_time TIME,
-  end_time TIME,
-  venue VARCHAR(255),
-  meeting_host VARCHAR(255),
-  attendees TEXT[],
-  opening_prayer_by VARCHAR(255),
-  gods_message_by VARCHAR(255),
-  general_notes TEXT,
-  church_reports TEXT[],
-  other_matters TEXT[],
-  next_meeting DATE,
-  next_time TIME,
-  next_location VARCHAR(255),
-  closing_prayer_by VARCHAR(255)
-);
+  id SERIAL PRIMARY KEY, 
+  data JSON)
+  ;
 
 INSERT INTO churches (name, map_url, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES (
   'Unassigned',
@@ -114,29 +118,34 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
   2
 );
 
--- INSERT INTO meetings (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_id, church_reports, prayer_requests, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES (
---   '1923-10-26',
---   '08:00 AM',
---   '05:00 PM',
---   'Disney Land',
---   'Mickey Mouse',
---   ARRAY ['Mickey Mouse', 'Minnie Mouse', 'Donald Duck', 'Daisy Duck', 'Goofy', 'Pluto'],
---   'Mickey Mouse',
---   'Goofy',
---   'Be careful around children... they bite!',
---   ARRAY ['{ 
---       church_id: 3, 
---       report: "New park is opening next week", 
---       prayerRequests: ["Successful company", "New Friends", "Yummy Candy"]
---     }', 
---     '{ 
---       church_id: 2, 
---       report: "New rides are being constructed", 
---       prayerRequests: ["Safety of guests", "Rides are fun", "People to manage", "Financial Success"]
---     }'],
---   ARRAY ['Cinderella needs a Castle', 'Tell Snow White not to eat the apple', 'Someone needs to wake up Sleeping Beauty'],
---   '1924-10-26',
---   '08:00 AM',
---   'Walt Disney Headquarters',
---   'Donald Duck'
--- );
+INSERT INTO meetings (data) VALUES ('{"date": "1923-10-26", "start_time": "08:00 AM", "end_time": "05:00 PM", "venue": "Disney Land", "meeting_host": "Mickey Mouse", "attendees": ["Mickey Mouse", "Minnie Mouse", "Donald Duck", "Daisy Duck", "Goofy", "Pluto"], "opening_prayer_by": "Mickey Mouse", "gods_message_by": "Goofy", "general_notes": "Be careful around children... they bite!", "church_reports": [{"church_id": "3", "report": "New park is opening next week", "prayerRequests": ["Safety of guests", "Rides are fun", "People to manage", "Financial Success"]}], "other_matters": ["Cinderella needs a Castle", "Tell Snow White not to eat the apple", "Someone needs to wake up Sleeping Beauty"], "next_meeting": "1924-10-26", "next_time": "08:00 AM", "next_location": "Walt Disney Headquarters", "closing_prayer_by": "Donald Duck"}'
+);
+
+-- {
+--   "date":"2019-09-12",
+--   "start_time":"12:00 AM",
+--   "end_time":"12:00 AM",
+--   "venue":"hgfd",
+--   "meeting_host":"fgh",
+--   "attendees":["fg","fgh","dfgh","fg","fgh","dfgh"],
+--   "opening_prayer_by":"fgh",
+--   "gods_message_by":"fdgh",
+--   "general_notes":"fdgh",
+--   "church_reports":[
+--     {
+--       "church_id":"3",
+--       "report":"fdghdfdg",
+--       "prayerRequests":["fdg","dfg","dfg","fdg","fdg","dfg","fdgf","sdfg","fdg"]
+--     },
+--     {
+--       "church_id":"2",
+--       "report":"fdg",
+--       "prayerRequests":["dfg","dfg","dsfg"]
+--     },
+--   ],
+--   "other_matters":["fgh","dfg","dfgbv"],
+--   "next_meeting":"2019-09-14",
+--   "next_time":"4:00 PM",
+--   "next_location":"fdghn",
+--   "closing_prayer_by":"fdghnb"
+--   }
