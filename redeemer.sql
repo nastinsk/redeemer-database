@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS pastors, churches;
+DROP TABLE IF EXISTS pastors, churches, meetings;
 
 CREATE TABLE IF NOT EXISTS churches (
   id SERIAL PRIMARY KEY,
@@ -26,6 +26,25 @@ CREATE TABLE IF NOT EXISTS pastors (
   family_marriage TEXT[],
   prayer_needs TEXT[],
   church_id INT REFERENCES churches(id)
+);
+
+CREATE TABLE IF NOT EXISTS meetings (
+  id SERIAL PRIMARY KEY,
+  date DATE,
+  start_time TIME,
+  end_time TIME,
+  venue VARCHAR(255),
+  meeting_host VARCHAR(255),
+  attendees TEXT[],
+  opening_prayer_by VARCHAR(255),
+  gods_message_by VARCHAR(255),
+  general_notes TEXT,
+  church_reports TEXT[],
+  other_matters TEXT[],
+  next_meeting DATE,
+  next_time TIME,
+  next_location VARCHAR(255),
+  closing_prayer_by VARCHAR(255)
 );
 
 INSERT INTO churches (name, map_url, longitude, latitude, location, church_members, sunday_school, pre_school, feeding_program, description, community) VALUES (
@@ -94,3 +113,30 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
   ARRAY ['Jobs, ministry for sons Nosnhoj (1990) & Jireh (1991)', 'Early retirement approval for Jackie at age 55 ( in two years) work at ICM stressful', 'Relationship with children', 'Increasing of R of L network 1 to 2 churches per year; identify willing learners', 'Noel health: high BP & asthma', 'Jackie health: stroke in 2014; low BP; arthritis; impact of menopause; headaches & needed therapy for neck and shoulders', 'Desire to see more physical church buildings for R of L; financial needs exist for property purchase & materials'],
   2
 );
+
+-- INSERT INTO meetings (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_id, church_reports, prayer_requests, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES (
+--   '1923-10-26',
+--   '08:00 AM',
+--   '05:00 PM',
+--   'Disney Land',
+--   'Mickey Mouse',
+--   ARRAY ['Mickey Mouse', 'Minnie Mouse', 'Donald Duck', 'Daisy Duck', 'Goofy', 'Pluto'],
+--   'Mickey Mouse',
+--   'Goofy',
+--   'Be careful around children... they bite!',
+--   ARRAY ['{ 
+--       church_id: 3, 
+--       report: "New park is opening next week", 
+--       prayerRequests: ["Successful company", "New Friends", "Yummy Candy"]
+--     }', 
+--     '{ 
+--       church_id: 2, 
+--       report: "New rides are being constructed", 
+--       prayerRequests: ["Safety of guests", "Rides are fun", "People to manage", "Financial Success"]
+--     }'],
+--   ARRAY ['Cinderella needs a Castle', 'Tell Snow White not to eat the apple', 'Someone needs to wake up Sleeping Beauty'],
+--   '1924-10-26',
+--   '08:00 AM',
+--   'Walt Disney Headquarters',
+--   'Donald Duck'
+-- );

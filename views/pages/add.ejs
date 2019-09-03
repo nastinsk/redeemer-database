@@ -165,7 +165,7 @@
       <label>Location of Meeting:</label>
       <input type="text" name="venue" placeholder="Name of Venue" required>
       <label>Meeting Host:</label>
-      <input type="text" name="meeting-host" placeholder="Name" required>
+      <input type="text" name="meeting_host" placeholder="Name" required>
     </div>
   </div>
 
@@ -199,11 +199,11 @@
   <div id="general">
     <div class="general-row">
       <h3>Opening Prayer By:</h3>
-      <input type="text" name="opening_prayer" placeholder="Name" required>
+      <input type="text" name="opening_prayer_by" placeholder="Name" required>
     </div>
     <div id="sharing">
       <h3>Sharing of God's Word By:</h3>
-      <input type="text" name="gods_message" placeholder="Name" required>
+      <input type="text" name="gods_message_by" placeholder="Name" required>
     </div>
     <div id="announcements">
       <h3>Initial Announcements:</h3>
@@ -224,14 +224,14 @@
           <div>
 
             <h4>Pastor <%=church.pastor_first_name %> <%= church.pastor_last_name %></h4>
-            <h6><%= church.name %> - <%= church.location %></h6>
+            <h6><%= church.name %> - <%= church.location %> <%= church.church_id %></h6>
 
           </div>
           <div class="report">
 
             <h6>Report:</h6>
 
-            <input type="hidden" name="church_id" value="<%= church.id %>" id="<%= church.id %>">
+            <input type="hidden" name="church_id" value="<%= church.church_id %>" id="<%= church.church_id %>">
     
             <textarea type="text" name="report" placeholder="Report" cols="30" rows="5" required></textarea>
 
@@ -241,15 +241,13 @@
 
             <h6>Prayer Requests:</h6>
           
-            <ol id="list-prayer-<%= church.id %>">
-              <li><input type="text" name="prayer_requests" placeholder="Prayer Request" required></li>
-              <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
-              <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
-              <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
-              <li><input type="text" name="prayer_requests" placeholder="Prayer Request"></li>
+            <ol id="list-prayer-<%= church.church_id %>">
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request"></li>
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request"></li>
             </ol>
       
-            <button id="prayer-<%= church.id %>" class="prayer-add">Add More Prayer Requests</button>
+            <button id="prayer-<%= church.church_id %>" class="prayer-add">Add More Prayer Requests</button>
           </div>
         <% } %>
       </div>
@@ -292,7 +290,7 @@
     <div class="line-break"></div>
     <div id="closing-prayer">
       <h3>Closing Prayer By:</h3>
-      <input type="text" name="closing_prayer" placeholder="Name" required>
+      <input type="text" name="closing_prayer_by" placeholder="Name" required>
     </div>
   </div>
   <div class="line-break"></div>

@@ -123,7 +123,7 @@ $('.add-minutes-button').on('click', function () {
     e.preventDefault();
     let id = $(this).attr('id')
     let olId = `#list-${id}`;
-    $(olId).append('<li><input type="text" name="prayer_requests" placeholder="Prayer Request" required></li>')
+    $(olId).append('<li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>')
   })
 
   $(".add-more").click(function (e) {  
