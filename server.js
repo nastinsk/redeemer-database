@@ -59,7 +59,10 @@ function getSingleChurch(request, response) {
   let SQL = 'SELECT * FROM churches WHERE id=$1;';
   let values = [request.params.id];
   client.query(SQL, values)
-    .then(result => response.render('pages/show_single_church', { church: result.rows[0] }))
+    .then(result => {
+      console.log(result.rows, 'churchresult.rows')
+      response.render('pages/show_single_church', { church: result.rows[0] })
+    })
     .catch(err => handleError(err, response));
 }
 
@@ -70,6 +73,7 @@ function getSinglePastor(request, response) {
       let values = [request.params.id];
       client.query(SQL, values)
         .then(result => {
+          console.log(result.rows, 'pastorresult.rows')
           let church = churches.rows.find(church => church.id === parseInt(result.rows[0].church_id));
 
           response.render('pages/show_single_pastor', { pastor: result.rows[0], churches: churches.rows, church: church })
