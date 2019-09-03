@@ -42,7 +42,7 @@ app.get('/all_pastors', allPastors);
 app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
 app.get('/pastor/:id', getSinglePastor);
-app.get('/minutes/:id', getSingleMeeting);
+app.get('/meetings/:id', getSingleMeeting);
 app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
 app.post('/new-minutes', addMinutes);
@@ -83,7 +83,7 @@ function getSinglePastor(request, response) {
     .catch(err => handleError(err, response));
 }
 
-function getSingleMeeting() {
+function getSingleMeeting(request, response) {
   console.log('i made it!')
   response.render('pages/index')
 }
@@ -120,6 +120,8 @@ function formatReports(input) {
 
 //Meeting Minutes Constructor
 function Minutes(input) {
+  let startJSON = '{"church_reports":' 
+  let endJSON = '}'
   this.date = input.date;
   this.start_time = input.start_time;
   this.end_time = input.end_time;
@@ -129,7 +131,7 @@ function Minutes(input) {
   this.opening_prayer_by = input.opening_prayer_by;
   this.gods_message_by = input.gods_message_by;
   this.general_notes = input.general_notes;
-  this.church_reports = formatReports(input);
+  this.church_reports = startJSON + JSON.stringify(formatReports(input)) + endJSON;
   this.other_matters = input.other_matters;
   this.next_meeting = input.next_meeting;
   this.next_time = input.next_time;
@@ -269,28 +271,20 @@ function addPastor(request, response) {
 }
 
 function addMinutes(request, response) {
-  // console.log(request.body, 'this is the request');
-  let minutes = JSON.stringify(new Minutes(request.body));
-  // console.log(minutes, 'i was constructed')
-  let values = `'${minutes}'`
+  let minutes = new Minutes(request.body);
 
-  // let SQL = 'INSERT INTO minutes (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id;';
+  let SQL = 'INSERT INTO meetings (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id;';
 
-  let SQL = `INSERT INTO meetings (data) VALUES(${values}) RETURNING id, data;`;
-  // console.log(SQL);
+  let values = [minutes.date, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
 
-  // let values = [minutes.date, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
 
-  
+  console.log(SQL, 'SQL')
+  console.log(values, 'values')
 
-  // let values = `'${minutes}'`;
-  // console.log(SQL, 'SQL')
-  // console.log(values, 'values')
-
-  client.query(SQL)
+  client.query(SQL, values)
     .then(result => {
-        console.log(result.rows);
-      response.redirect(`/minutes/${result.rows[0].id}`)
+        // console.log(result.rows[0].id, "result");
+      response.redirect(`/meetings/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
 }
