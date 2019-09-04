@@ -39,6 +39,7 @@ app.set('view engine', 'ejs');
 app.get('/', homePage);
 app.get('/all_churches', allChurches);
 app.get('/all_pastors', allPastors);
+app.get('/all_meeting_minutes', allMeetings);
 app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
 app.get('/pastor/:id', getSinglePastor);
@@ -48,6 +49,7 @@ app.post('/new-pastor', addPastor);
 app.post('/new-minutes', addMinutes);
 app.delete('/church/:id', deleteRecord);
 app.delete('/pastor/:id', deleteRecord);
+app.delete('/meeting/:id', deleteRecord);
 app.put('/pastor/edit/:id', updateRecord);
 app.put('/church/edit/:id', updateRecord);
 
@@ -87,7 +89,7 @@ function getSingleMeeting(request, response) {
   let values = [request.params.id];
   client.query(SQL, values)
     .then(result => {
-      response.render('pages/show_single_meeting', { meeting: result.rows[0] })
+      response.render('pages/show_single_meeting', { meeting: result.rows[0], months: months })
     })
     .catch(err => handleError(err, response));
 }
@@ -203,7 +205,7 @@ function homePage(request, response) {
   response.render('pages/index');
 }
 
-// TODO: Can allChurches and allPastors be made into 1 function?
+// TODO: Can allChurches, allMeetings, and allPastors be made into 1 function?
 function allChurches(request, response) {
   let SQL = 'SELECT * FROM churches ORDER BY name ASC;'
   return client.query(SQL)
@@ -212,6 +214,21 @@ function allChurches(request, response) {
         response.render('pages/add');
       } else {
         response.render('pages/all_churches', { churches: results.rows })
+      }
+    })
+    .catch(err => handleError(err, response));
+}
+
+function allMeetings(request, response) {
+  let SQL = 'SELECT * FROM meetings ORDER BY date ASC;'
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  return client.query(SQL)
+    .then(results => {
+      if (results.rows.rowCount === 0) {
+        response.render('pages/add');
+      } else {
+        response.render('pages/all_meeting_minutes', { meetings: results.rows, months: months, days: days})
       }
     })
     .catch(err => handleError(err, response));
@@ -237,6 +254,7 @@ function addSelection(request, response) {
   .then(result => {
     getChurchesWithPastors()
       .then(churchList => {
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         response.render('pages/add', { churchList: churchList.rows, distinctChurches: result.rows });
       }) 
       .catch(err => handleError(err, response));
