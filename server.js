@@ -39,11 +39,11 @@ app.set('view engine', 'ejs');
 app.get('/', homePage);
 app.get('/all_churches', allChurches);
 app.get('/all_pastors', allPastors);
-app.get('/all_meeting_minutes', allMeetings);
+app.get('/all_meetings', allMeetings);
 app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
 app.get('/pastor/:id', getSinglePastor);
-app.get('/meetings/:id', getSingleMeeting);
+app.get('/meeting/:id', getSingleMeeting);
 app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
 app.post('/new-minutes', addMinutes);
@@ -89,7 +89,7 @@ function getSingleMeeting(request, response) {
   let values = [request.params.id];
   client.query(SQL, values)
     .then(result => {
-      response.render('pages/show_single_meeting', { meeting: result.rows[0], months: months })
+      response.render('pages/show_single_meeting', { meeting: result.rows[0]})
     })
     .catch(err => handleError(err, response));
 }
@@ -107,6 +107,65 @@ function getPrayerArray(obj) {
     }
   }
   return allPrayerRequests;
+}
+function whenHour (hour) {
+  // console.log (typeof hour)
+  // console.log(hour);
+  if(hour >= 12) {
+    return 'PM'
+  } else {
+    return 'AM'
+  }
+}; 
+
+function formatMinutes (minutes) {
+  console.log(typeof minutes)
+  console.log(minutes)
+  if(minutes < 10) {
+    return `0${minutes}`
+  } else {
+    return minutes
+  }
+};
+
+function formatHours (hour) {
+  if(hour < 10) {
+    return `0${hour}`
+  } else {
+    return hour
+  }
+}; 
+
+function formatTime (input) {
+  let t = new Date(input);
+  let hour = t.getHours();
+  let min = t.getMinutes();
+  console.log(t, 'time')
+  console.log(hour, 'hour')
+  console.log(min, 'min')
+  let timeOfDay = whenHour(hour);
+  let formattedTime = `${formatHours(hour)}:${formatMinutes(min)} ${timeOfDay}`
+  console.log(formatMinutes)
+  return formattedTime;
+}
+
+function dayOfWeek (input) {
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  let dayOfTheWeek = days[new Date(input).getDay()]
+
+  return dayOfTheWeek;
+}
+
+function formatDate (input) {
+  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  let month = months[new Date(input).getMonth()];
+  let day = new Date(input).getDate();
+  let year = new Date(input).getFullYear();
+
+  let formattedDate = `${month} ${day}, ${year}`
+  return formattedDate;
 }
 
 function formatReports(input) {
@@ -128,7 +187,8 @@ function formatReports(input) {
 function Minutes(input) {
   let startJSON = '{"church_reports":' 
   let endJSON = '}'
-  this.date = input.date;
+  this.date = formatDate(input.date);
+  this.day = dayOfWeek(input.date);
   this.start_time = input.start_time;
   this.end_time = input.end_time;
   this.venue = input.venue;
@@ -139,7 +199,7 @@ function Minutes(input) {
   this.general_notes = input.general_notes;
   this.church_reports = startJSON + JSON.stringify(formatReports(input)) + endJSON;
   this.other_matters = input.other_matters;
-  this.next_meeting = input.next_meeting;
+  this.next_meeting = formatDate(input.next_meeting);
   this.next_time = input.next_time;
   this.next_location = input.next_location;
   this.closing_prayer_by = input.closing_prayer_by;
@@ -180,6 +240,7 @@ function Church(input) {
 
 function getPath(request, response) {
   let currentPath = request.path
+  console.log(currentPath);
   let regex = /\/(.*?)\//;
   let path = currentPath.match(regex);
   return path[1]
@@ -219,16 +280,15 @@ function allChurches(request, response) {
     .catch(err => handleError(err, response));
 }
 
+//TODO: create a helper function for the months and days to be used by the meeting minutes functionality (and possibly budget)
 function allMeetings(request, response) {
-  let SQL = 'SELECT * FROM meetings ORDER BY date ASC;'
-  let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  let SQL = 'SELECT * FROM meetings ORDER BY id ASC;'
   return client.query(SQL)
     .then(results => {
       if (results.rows.rowCount === 0) {
         response.render('pages/add');
       } else {
-        response.render('pages/all_meeting_minutes', { meetings: results.rows, months: months, days: days})
+        response.render('pages/all_meetings', { meetings: results.rows})
       }
     })
     .catch(err => handleError(err, response));
@@ -293,11 +353,12 @@ function addPastor(request, response) {
 }
 
 function addMinutes(request, response) {
+  console.log(request.body);
   let minutes = new Minutes(request.body);
 
-  let SQL = 'INSERT INTO meetings (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id;';
+  let SQL = 'INSERT INTO meetings (date, day, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING id;';
 
-  let values = [minutes.date, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
+  let values = [minutes.date, minutes.day, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
 
 
   console.log(SQL, 'SQL')
@@ -306,7 +367,7 @@ function addMinutes(request, response) {
   client.query(SQL, values)
     .then(result => {
         // console.log(result.rows[0].id, "result");
-      response.redirect(`/meetings/${result.rows[0].id}`)
+      response.redirect(`/meeting/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
 }
@@ -345,21 +406,25 @@ function updateRecord(request, response) {
 
 // }
 function deleteRecord(request, response) {
-
-  let database = '';
+  console.log('here!')
   function getDatabase(path) {
     if (path === 'church') {
-      database = 'churches'
+      database = 'churches';
     } else if (path === 'pastor') {
-      database = 'pastors'
+      database = 'pastors';
+    } else if (path === 'meeting') {
+      database = 'meetings';
     }
     return database;
   }
+  let database = '';
 
   let current = getDatabase(getPath(request, response))
+  console.log(current)
 
   let SQL = `DELETE FROM ${current} WHERE id=$1;`;
   let values = [request.params.id];
+  console.log(values)
 
   return client.query(SQL, values)
     .then(response.redirect(`/all_${current}`))

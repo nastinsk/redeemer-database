@@ -1,3 +1,38 @@
 <section id="single-meeting" class="single-meeting-info">
-    
+    <div class="meeting-info-title">
+        <img src="../../styles/images/redeemer-logo-white.png"/>
+        <h2>Redeemer of Life Ministries</h2>
+      </div>
+    <div class="meeting-info">
+      <!-- TODO: Link Church Name Table as a display field -->
+      <!-- TODO: convert the date/time logic in the constructor instead of in the EJS-->
+      <h6>Date: <%= meeting.date%> </h6>
+      <h6>Time: <%= meeting.start_time %> to <%= meeting.end_time %></h6>
+      <h6>Venue: <%= meeting.venue%> (<%= meeting.meeting_host %>)</h6>
+      <h6>Presiding Officer: Add to form/database/constructor</h6>
+      <h6>Agenda: Add to form/database/constructor</h6>
+      <h6>Minutes Recorded By: Add to form/database/constructor</h6>
+      <img id="photo" src="<%= meeting.image_url %>"/>
+      
+    </div>
+      <div class="details">
+  
+        <div>
+          <h3>Affiliated Church</h3>
+          <div class="church-name-and-location">
+            <h6><%= meeting.venue %></h6>
+            <p><%= meeting.venue %></p>
+          </div>
+          <h3>Our Stories</h3>
+          <div>
+            <h6>meeting <%= meeting.venue %> <%= meeting.venue %></h6>
+  
+            
+    <div class="detail-buttons">
+      <!-- TODO: Fix consistent styling on the update button -->
+      <button type="submit">Save Changes</button>
+      <button id="cancel-change">Cancel</button>
+      </form>
+    </div>
+  </form>
 </section>

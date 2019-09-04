@@ -30,9 +30,10 @@ CREATE TABLE IF NOT EXISTS pastors (
 
 CREATE TABLE IF NOT EXISTS meetings (
   id SERIAL PRIMARY KEY,
-  date TEXT,
-  start_time TIME,
-  end_time TIME,
+  date DATE,
+  day VARCHAR(255),
+  start_time VARCHAR(255),
+  end_time VARCHAR(255),
   venue VARCHAR(255),
   meeting_host VARCHAR(255),
   attendees TEXT[],
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS meetings (
   church_reports JSON,
   other_matters TEXT[],
   next_meeting DATE,
-  next_time TIME,
+  next_time VARCHAR(255),
   next_location VARCHAR(255),
   closing_prayer_by VARCHAR(255)
 );
@@ -114,8 +115,9 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
   2
 );
 
-INSERT INTO meetings (date, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES (
+INSERT INTO meetings (date, day, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES (
   '1923-10-26',
+  'Thursday',
   '08:00 AM',
   '05:00 PM',
   'Disney Land',
