@@ -30,21 +30,28 @@ CREATE TABLE IF NOT EXISTS pastors (
 
 CREATE TABLE IF NOT EXISTS meetings (
   id SERIAL PRIMARY KEY,
-  date DATE,
+  date VARCHAR(255),
+  formatted_date VARCHAR(255),
   day VARCHAR(255),
   start_time VARCHAR(255),
   end_time VARCHAR(255),
   venue VARCHAR(255),
   meeting_host VARCHAR(255),
+  presiding_officer VARCHAR(255),
+  agenda TEXT[],
+  minutes_taken_by VARCHAR(255),
   attendees TEXT[],
   opening_prayer_by VARCHAR(255),
   gods_message_by VARCHAR(255),
   general_notes TEXT,
   church_reports JSON,
   other_matters TEXT[],
-  next_meeting DATE,
+  next_meeting VARCHAR(255),
+  next_meeting_formatted VARCHAR(255),
+  next_meeting_day VARCHAR(255),
   next_time VARCHAR(255),
   next_location VARCHAR(255),
+  next_location_host VARCHAR(255),
   closing_prayer_by VARCHAR(255)
 );
 
@@ -115,21 +122,55 @@ INSERT INTO pastors (pastor_first_name, pastor_last_name, spouse, pastor_story, 
   2
 );
 
-INSERT INTO meetings (date, day, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES (
+INSERT INTO meetings (date, day, formatted_date, start_time, end_time, venue, meeting_host, presiding_officer, agenda, minutes_taken_by, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_meeting_formatted, next_meeting_day, next_time, next_location, next_location_host, closing_prayer_by) VALUES (
   '1923-10-26',
   'Thursday',
+  'October 26, 1923',
   '08:00 AM',
   '05:00 PM',
   'Disney Land',
   'Mickey Mouse',
+  'Mickey Mouse',
+  ARRAY ['plan the fireworks show', 'who is allowed to view the parade?', 'find a new source for cotton candy'],
+  'Daisy Duck',
   ARRAY ['Mickey Mouse', 'Minnie Mouse', 'Donald Duck', 'Daisy Duck', 'Goofy', 'Pluto'],
   'Mickey Mouse',
   'Goofy',
   'Be careful around children... they bite!',
-  '{"church_reports": [{"church_id": "3", "report": "New park is opening next week", "prayerRequests": ["Safety of guests", "Rides are fun", "People to manage", "Financial Success"]},{"church_id": "2", "report": "We Exist!", "prayerRequests": ["Make movies", "hire princesses", "candy", "buy Pixar"]}]}',
+  '{"church_reports": [{"church_id": "3", "church_name":"Disney Enjoyment Fellowship Church", "church_pastor":"Mickey Mouse", "report": "New park is opening next week", "prayerRequests": ["Safety of guests", "Rides are fun", "People to manage", "Financial Success"]},{"church_id": "2", "church_name":"Pixar Baptist Church", "church_pastor":"Mr. Incredible", "report": "We Exist!", "prayerRequests": ["Make movies", "hire princesses", "candy", "buy Pixar"]}]}',
   ARRAY ['Cinderella needs a Castle', 'Tell Snow White not to eat the apple', 'Someone needs to wake up Sleeping Beauty'],
   '1924-10-26',
+  'October 26, 1924',
+  'Friday',
   '08:00 AM',
   'Walt Disney Headquarters',
+  'Mr. Incredible',
   'Donald Duck'
+);
+
+INSERT INTO meetings (date, day, formatted_date, start_time, end_time, venue, meeting_host, presiding_officer, agenda, minutes_taken_by, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_meeting_formatted, next_meeting_day, next_time, next_location, next_location_host, closing_prayer_by) VALUES (
+  '2018-01-15',
+  'Monday',
+  'January 15, 2018',
+  '09:00 AM',
+  '02:00 PM',
+  'God''s Word Baptist Church',
+  'Pastor Marlon Ticar',
+  'Pastor Noel Banasing',
+  ARRAY ['Sharing and testimonies of every redeemer pastors', 'Hard copies of  December  accomplishment report submit it to Jenny, except the 4 new pastors, Pastor Richard Mahinay, Pastor Ronel Tarino, Pastor Benjie, Bernasol, Pastor Norman Gicaro', 'The final committees of our Men and Youth Fellowship every month'],
+  'Jenny Jaya',
+  ARRAY ['Pastor Nestor Vegafria', 'Pastor Richard Loquenario', 'Pastor Marlon Ticar', 'Pastor Romeo Delgado', 'Pastor Leo De Pedro', 'Pastor Rolly  Cadahing', 'Pastor Nemuel Caagoy', 'Pastor Florentino Alpas', 'Sharyl Antol', 'Jenny Jaya', 'Pastor Joseph Leonidas', 'Pastor Norman Gicaro', 'Pastor Richard Mahinay', 'Pastor Ronel Tarino', 'Pastor Benjie Bernasol', ''],
+  'Pastor Noel Banasing',
+  'Pastor Nemuel Caagoy',
+  'After sharing God''s word Pastor Noel said: As usual we are submitting our written report before  our sharing and oral reports . Please give all your report to Jenny Jaya',
+  -- TODO: update the church_id for seed data
+  '{"church_reports": [{"church_id": "3", "church_name":"Moriah God’s Temple", "church_pastor":"Nestor Vegafria", "report": "Praise God and so thankful to Him for His faithfulness to us , especially that God still using us to reach out the poor , the unsaved to become save. I am happy in serving the Lord despite hardship. I that God for the Redeemer of Life lead by pastor Banasing as our mentor in the ministry. Also, the Northshore Community church. Through their prayers and financial support, we were able to reach more souls and have programs in our church.\r\n\r\nWith regards to the updates of the ministry in the mountain of course all of us as very busy to do our work , My bible studies are consistent 4 times a week and  we have two churches every week to handle , during Saturday we have worship in the mountain and Sunday here in the proper village, although it is hard but we enjoy doing it with my wife, because we know the Lord called us to do this work.\r\n\r\nWe still extend feeding program although we have no funds, but God provided in some other ways through our church members donations of some small amount, the thing is that we have no consistent amount every Saturday. We just depend on how much we have from our church members.  But we are very happy to do this with sacrifice. We are still praying that God will resume the fund from Northshore for the feeding program so that we can help the very poor children in our community as well as the pre-school budget. My wife also extends thanks to Northshore for the Pre-school teacher love gift serve as allowance . It helps a lot to our very needs and for our students. Some we spend for the repair of our parsonage.\r\n\r\nBy God’s Grace we continue our Pre-school by faith , this ministry is very effective because we can reach the parents through God’s word because of their children. Right now , we still have 52 students.  We are so thankful to the Team of Northshore headed by John Trainor the materials for the children is very  helpful to us.", "prayerRequests": ["God''s provision for our feeding program.", "Good health for me and for my wife", "Daily protection to do the work of the Lord", "Financial Success", "God''s provision for the pre-school."]},{"church_id": "2", "church_name":"Redeemer of Life Church", "church_pastor":" Romeo Delgado", "report": "For me it is my privilege to share about my one whole month experience in the ministry of how the Lord is doing and helping the ministry going on smoothly .  I am so thankful to God for the Redeemer of Life being the shoulder of the ministry because it is very hard to be alone, I believe Redeemer is an Instrument of God so that this ministry will continue  and productive even though there are lots of trials. I thank God also for the Northshore Community Church who support us  in Prayers and of course financial it is a great help to our family personal needs since our church income is so little, that is why I am thankful also to Pastor Noel Banasing as our Leader and Mentor . Our Redeemer meeting and fellowship  for me is recharging because of our sharing of our experience in the ministry every month.\r\n\r\nWith regards to the updates of the ministry , our regular schedule of bible studies still goes on 2 times a week and the whole month we did 8 Bible studies not including our  special schedule some  of the families requested us to have bibles studies  but not a regular schedule. Our regular church attendance for this month is 130 not including the children. Month of  December  we had 10 salvation lead to the Lord and we are now doing  discipleship for the 10 new converts.\r\n\r\nThis year 2018, we are extending our new outreach in the upper village, we had already 5 families attending our service every week. We are hoping that the Lord will provide financially  for our feeding program into this remote area", "prayerRequests": ["Please help us to pray that God will provide us a church lot for our church Gathering. Because the one that we are using until now the children of the owner wants to get it back, although the parents donated it to us but the problem the old ones who donated the lot has  died and they have no copy of deed of donation. Only the Lord knows, and we just rely on Him.", "Good health and financial needs for my family.", "We need additional materials for the new church plant in the other village , we had already people there worshipping the Lord."]}]}',
+  ARRAY ['One whole year schedule and activities of Redeemer of Life. Pastor Banasing said, the reason why we are doing the whole year schedule and activities so that you can see you schedule every monthly. If ever you have new coming schedule. You know  what is your priority. I want to remind all pastors of Redeemer that the schedule that we are now doing is the first priority if you consider that you are under the Redeemer of Life ministry. Please see to it that all of you has the copy of our one whole year schedule of activities.', 'The new Redeemer pastors. Pastor Norman Gicaro, Benjie Bernasol, Ronel Tarino and Richard Mahinay. Your Monthly report will start on february for the month of January and some of you has lacking of  requirements such as Biography and family pictures please submit it as soon as possible because I need to submit it to NCC.', 'This coming Friday we will be having are survey for the new outreach combine of all redeemer pastors as our pilot program for the new church planting. The place was suggested by Pastor Mahinay in Victorias. ', 'This month we need to visit and reserve the venue for our Youth camp this coming 3rd weeks of April. Needs to suggest 2 to 3 venues and select the good one for us to reserve.  Incharge and action taken by: Pastor Nemuel and Pastor Leo De Pedro.', 'Right after our meeting we will proceed and visit pastor Saban  for prayers and moral support, since he just go home from hospital.'],
+  '2018-02-12',
+  'February 02, 2018',
+  'Friday',
+  '09:00 AM',
+  'Redeemer of Life Church',
+  'Pastor Florentino Alpas',
+  'Pastor Noel Banasing'
 );

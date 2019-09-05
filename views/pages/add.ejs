@@ -16,6 +16,8 @@
 
 <body>
     <%- include('../layout/header') %>
+
+    <!-- TODO: Add form labels to church and pastor forms -->
   <main>
       <div id="add-to-database-box">
         <h1>Add to Database</h1>
@@ -57,7 +59,7 @@
         <!-- ==================================================================== -->
         
         <form class="add-church-form" action="/new-church" method="post">
-          
+          <!-- TODO: remove pink input outlines -->
           <div class="line-break"></div>
 
           <div class = "form-title">
@@ -68,19 +70,20 @@
 
           <input type="text" name="name" placeholder="Church Name" required>
 
-          <input type="text" name="longitude" placeholder="Longitude (Example: 122.9719454)" required>
+          <!-- TODO: decide if want to include default lat/long in tiny p tag under the input boxes since placeholder will disappear and is not copyable -->
+          <input type="number" name="longitude" step="0.0000001" placeholder="Longitude (If Unknown Use: 122.9719454)" required>
 
-          <input type="text" name="latitude" placeholder="Latitude (Example: 10.8001204)" required>
+          <input type="number" name="latitude" placeholder="Latitude (If Unknown Use: 10.8001204)" step="0.0000001" pattern = "^(\-?\d+(\.\d+)?)$" required>
 
-          <input type="text" name="location" placeholder="Location" required>
+          <input type="text" name="location" pattern = "^(\-?\d+(\.\d+)?)$" placeholder="Location" required>
 
-          <input type="text" name="church_members" placeholder="Number of Adults" required>
+          <input type="number" name="church_members" placeholder="Number of Adults" required>
 
-          <input type="text" name="sunday_school" placeholder="Number of Children" required>
+          <input type="number" name="sunday_school" placeholder="Number of Children" required>
 
-          <input type="text" name="pre_school" placeholder="Number of Preschool Children" required>
+          <input type="number" name="pre_school" placeholder="Number of Preschool Children" required>
 
-          <input type="text" name="feeding_program" placeholder="Number of Feeding Program Children OR NA" required>
+          <input type="number" name="feeding_program" placeholder="Number of Feeding Program Children OR NA" required>
           
           <textarea name="description" placeholder="Church Description" cols="30" rows="5" required></textarea>
 
@@ -93,6 +96,8 @@
 <!-- ========================================================================== -->
 <!-- ========================================================================== -->
       <form class="add-pastor-form" action="/new-pastor" method="post">
+
+        <!-- TODO: remove pink input outlines -->
 
         <div class="line-break"></div>
 
@@ -167,6 +172,12 @@
       <label>Meeting Host:</label>
       <input type="text" name="meeting_host" placeholder="Name" required>
     </div>
+    <div id="other-people">
+        <label>Presiding Officer:</label>
+        <input type="text" name="presiding_officer" placeholder="Name" required>
+        <label>Minutes Recorded By:</label>
+        <input type="text" name="minutes_taken_by" placeholder="Name" required>
+      </div>
   </div>
 
   <div class="line-break"></div>
@@ -179,9 +190,7 @@
     
     <ol id="attendee-list">
       <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
-      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
-      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
-      <li><input type="text" name="attendees" placeholder="Attendee Name" required></li>
+      <li><input type="text" name="attendees" placeholder="Attendee Name"></li>
       <li><input type="text" name="attendees" placeholder="Attendee Name"></li>
       <li><input type="text" name="attendees" placeholder="Attendee Name"></li>
     </ol>
@@ -205,10 +214,14 @@
       <h3>Sharing of God's Word By:</h3>
       <input type="text" name="gods_message_by" placeholder="Name" required>
     </div>
-    <div id="announcements">
+    <div class="announcements">
       <h3>Initial Announcements:</h3>
       <textarea type="text" name="general_notes" placeholder="Notes" cols="30" rows="3" required></textarea>
     </div>
+    <div class="announcements">
+        <h3>Agenda:</h3>
+        <textarea type="text" name="agenda" placeholder="Agenda" cols="30" rows="3" required></textarea>
+      </div>
   </div>
 
   <div class="line-break"></div>
@@ -232,19 +245,20 @@
             <h6>Report:</h6>
 
             <input type="hidden" name="church_id" value="<%= church.church_id %>" id="<%= church.church_id %>">
+            <input type="hidden" name="church_name" value="<%= church.name %>">
+            <input type="hidden" name="church_pastor" value="<%=church.pastor_first_name %> <%= church.pastor_last_name %>">
     
             <textarea type="text" name="report" placeholder="Report" cols="30" rows="5" required></textarea>
 
           </div>
   
-          <div class="prayer-requests">
+          <div class="prayer-requests" id="<%= church.church_id %>">
 
             <h6>Prayer Requests:</h6>
           
-            <ol id="list-prayer-<%= church.church_id %>">
+            <ol id="list-prayer-<%= church.church_id %>" >
               <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>
-              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request"></li>
-              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request"></li>
+              <li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>
             </ol>
       
             <button id="prayer-<%= church.church_id %>" class="prayer-add">Add More Prayer Requests</button>
@@ -264,7 +278,6 @@
     <ol id="other-matters-list">
       <li><input type="text" name="other_matters" placeholder="Other Matters" required></li>
       <li><input type="text" name="other_matters" placeholder="Other Matters" ></li>
-      <li><input type="text" name="other_matters" placeholder="Other Matters" ></li>
     </ol>
     <button class="add-more">Add Additional Items</button>
   </div>
@@ -282,9 +295,13 @@
         <label>Time:</label>
         <input type="text" name="next_time" placeholder="12:00 AM" required>
       </div>
-      <div id="closing-location">
+      <div>
         <label>Location:</label>
-        <input type="text" name="next_location" placeholder="Venue" required>
+        <input type="text" name="next_location" placeholder="Name of Venue" required>
+      </div>
+      <div>
+          <label>Location Host:</label>
+          <input type="text" name="next_location_host" placeholder="Name" required>
       </div>
     </div>
     <div class="line-break"></div>

@@ -74,7 +74,6 @@ function getSinglePastor(request, response) {
       let values = [request.params.id];
       client.query(SQL, values)
         .then(result => {
-          console.log(result.rows, 'pastorresult.rows')
           let church = churches.rows.find(church => church.id === parseInt(result.rows[0].church_id));
 
           response.render('pages/show_single_pastor', { pastor: result.rows[0], churches: churches.rows, church: church })
@@ -85,12 +84,16 @@ function getSinglePastor(request, response) {
 }
 
 function getSingleMeeting(request, response) {
-  let SQL = 'SELECT * FROM meetings WHERE id=$1;';
-  let values = [request.params.id];
-  client.query(SQL, values)
-    .then(result => {
-      response.render('pages/show_single_meeting', { meeting: result.rows[0]})
-    })
+  getChurchesWithPastors()
+  .then(churchPastorData => {
+    let SQL = 'SELECT * FROM meetings WHERE id=$1;';
+    let values = [request.params.id];
+    client.query(SQL, values)
+      .then(result => {
+        response.render('pages/show_single_meeting', { meeting: result.rows[0], churchPastorData: churchPastorData.rows, churchReports: result.rows[0].church_reports.church_reports})
+      })
+      .catch(err => handleError(err, response));
+  })
     .catch(err => handleError(err, response));
 }
 // Turn the server On
@@ -108,46 +111,46 @@ function getPrayerArray(obj) {
   }
   return allPrayerRequests;
 }
-function whenHour (hour) {
-  // console.log (typeof hour)
-  // console.log(hour);
-  if(hour >= 12) {
-    return 'PM'
-  } else {
-    return 'AM'
-  }
-}; 
+// function whenHour (hour) {
+//   // console.log (typeof hour)
+//   // console.log(hour);
+//   if(hour >= 12) {
+//     return 'PM'
+//   } else {
+//     return 'AM'
+//   }
+// }; 
 
-function formatMinutes (minutes) {
-  console.log(typeof minutes)
-  console.log(minutes)
-  if(minutes < 10) {
-    return `0${minutes}`
-  } else {
-    return minutes
-  }
-};
+// function formatMinutes (minutes) {
+//   console.log(typeof minutes)
+//   console.log(minutes)
+//   if(minutes < 10) {
+//     return `0${minutes}`
+//   } else {
+//     return minutes
+//   }
+// };
 
-function formatHours (hour) {
-  if(hour < 10) {
-    return `0${hour}`
-  } else {
-    return hour
-  }
-}; 
+// function formatHours (hour) {
+//   if(hour < 10) {
+//     return `0${hour}`
+//   } else {
+//     return hour
+//   }
+// }; 
 
-function formatTime (input) {
-  let t = new Date(input);
-  let hour = t.getHours();
-  let min = t.getMinutes();
-  console.log(t, 'time')
-  console.log(hour, 'hour')
-  console.log(min, 'min')
-  let timeOfDay = whenHour(hour);
-  let formattedTime = `${formatHours(hour)}:${formatMinutes(min)} ${timeOfDay}`
-  console.log(formatMinutes)
-  return formattedTime;
-}
+// function formatTime (input) {
+//   let t = new Date(input);
+//   let hour = t.getHours();
+//   let min = t.getMinutes();
+//   console.log(t, 'time')
+//   console.log(hour, 'hour')
+//   console.log(min, 'min')
+//   let timeOfDay = whenHour(hour);
+//   let formattedTime = `${formatHours(hour)}:${formatMinutes(min)} ${timeOfDay}`
+//   console.log(formatMinutes)
+//   return formattedTime;
+// }
 
 function dayOfWeek (input) {
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -171,10 +174,13 @@ function formatDate (input) {
 function formatReports(input) {
   let churchReportsArray = [];
 
-  
+  console.log(input)
+
   for(let i = 0 ; i < input.church_id.length; i++) {
     input.church_id[i] = {
       church_id: input.church_id[i],
+      church_name: input.church_name[i],
+      church_pastor: input.church_pastor[i],
       report: input.report[i],
       prayerRequests: getPrayerArray(input)[i]
     }
@@ -185,23 +191,32 @@ function formatReports(input) {
 
 //Meeting Minutes Constructor
 function Minutes(input) {
-  let startJSON = '{"church_reports":' 
-  let endJSON = '}'
-  this.date = formatDate(input.date);
+  let startJSON = '{"church_reports":';
+  let endJSON = '}';
+  const lineBreak = /\r\n\r\n/g;
+  const lineBreakReplacement = ', ';
+  this.date = input.date;
+  this.formatted_date = formatDate(input.date),
   this.day = dayOfWeek(input.date);
   this.start_time = input.start_time;
   this.end_time = input.end_time;
   this.venue = input.venue;
   this.meeting_host = input.meeting_host;
+  this.presiding_officer = input.presiding_officer;
+  this.agenda = '{' + input.agenda.replace(lineBreak, lineBreakReplacement) + '}';
+  this.minutes_taken_by = input.minutes_taken_by;
   this.attendees = input.attendees;
   this.opening_prayer_by = input.opening_prayer_by;
   this.gods_message_by = input.gods_message_by;
   this.general_notes = input.general_notes;
   this.church_reports = startJSON + JSON.stringify(formatReports(input)) + endJSON;
   this.other_matters = input.other_matters;
-  this.next_meeting = formatDate(input.next_meeting);
+  this.next_meeting = input.next_meeting;
+  this.next_meeting_formatted = formatDate(input.next_meeting);
+  this.next_meeting_day = dayOfWeek(input.next_meeting);
   this.next_time = input.next_time;
   this.next_location = input.next_location;
+  this.next_location_host = input.next_location_host;
   this.closing_prayer_by = input.closing_prayer_by;
 }
 
@@ -240,7 +255,7 @@ function Church(input) {
 
 function getPath(request, response) {
   let currentPath = request.path
-  console.log(currentPath);
+  // console.log(currentPath);
   let regex = /\/(.*?)\//;
   let path = currentPath.match(regex);
   return path[1]
@@ -346,23 +361,18 @@ function addPastor(request, response) {
 
   client.query(SQL, values)
     .then(result => {
-      console.log(result, 'result')
       response.redirect(`/pastor/${result.rows[0].id}`)
     })
     .catch(err => handleError(err, response));
 }
 
 function addMinutes(request, response) {
-  console.log(request.body);
   let minutes = new Minutes(request.body);
+  console.log(minutes)
 
-  let SQL = 'INSERT INTO meetings (date, day, start_time, end_time, venue, meeting_host, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_time, next_location, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING id;';
+  let SQL = 'INSERT INTO meetings (date, day, formatted_date, start_time, end_time, venue, meeting_host, presiding_officer, agenda, minutes_taken_by, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_meeting_formatted, next_meeting_day, next_time, next_location, next_location_host, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23) RETURNING id;';
 
-  let values = [minutes.date, minutes.day, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_time, minutes.next_location, minutes.closing_prayer_by];
-
-
-  console.log(SQL, 'SQL')
-  console.log(values, 'values')
+  let values = [minutes.date, minutes.day, minutes.formatted_date, minutes.start_time, minutes.end_time, minutes.venue, minutes.meeting_host, minutes.presiding_officer, minutes.agenda, minutes.minutes_taken_by, minutes.attendees, minutes.opening_prayer_by, minutes.gods_message_by, minutes.general_notes, minutes.church_reports, minutes.other_matters, minutes.next_meeting, minutes.next_meeting_formatted, minutes.next_meeting_day, minutes.next_time, minutes.next_location, minutes.next_location_host, minutes.closing_prayer_by];
 
   client.query(SQL, values)
     .then(result => {
@@ -406,7 +416,6 @@ function updateRecord(request, response) {
 
 // }
 function deleteRecord(request, response) {
-  console.log('here!')
   function getDatabase(path) {
     if (path === 'church') {
       database = 'churches';
@@ -420,11 +429,9 @@ function deleteRecord(request, response) {
   let database = '';
 
   let current = getDatabase(getPath(request, response))
-  console.log(current)
 
   let SQL = `DELETE FROM ${current} WHERE id=$1;`;
   let values = [request.params.id];
-  console.log(values)
 
   return client.query(SQL, values)
     .then(response.redirect(`/all_${current}`))
