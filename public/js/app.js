@@ -123,11 +123,11 @@ $('.add-minutes-button').on('click', function () {
     e.preventDefault();
     let id = $(this).attr('id')
     let olId = `#list-${id}`;
-    $(olId).append('<li><input type="text" name="prayer_requests<%= church.church_id %>" placeholder="Prayer Request" required></li>')
+    let parentId= $(olId).parent().prop('id')
+    $(olId).append(`<li><input type="text" name="prayer_requests${parentId}" placeholder="Prayer Request"></li>`)
   })
 
   $(".add-more").click(function (e) {  
     e.preventDefault();
     $("#other-matters-list").append('<li><input type="text" name="other_matters" placeholder="Other Matters" ></li>')
   });
-

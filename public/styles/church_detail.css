@@ -104,7 +104,7 @@
 #coordinates > h6 {
   color: white;
   margin: .5rem 0 0 0;
-  font-style: normal;
+  /* font-style: normal; */
 }
 
 .details {

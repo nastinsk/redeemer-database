@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>All Meetings</title>
+  <%- include('../layout/head') %>
+  <link rel="stylesheet" href="../../styles/list.css">
+</head>
+
+<body>
+  <%- include('../layout/header') %>
+  <main>
+    <div class="all">
+      <div>
+          <h1>
+            <i class="fas fa-file-alt"></i>
+          </h1>
+          <h1>All Meeting Minutes</h1>
+      </div>
+      <!-- TODO: Handle singluar vs plural when rendering -->
+      <h6>There are currently <%=meetings.length %> meeting report saved in the database</h6>
+      <ul class= "object-list" id="meeting-date">
+        <% meetings.forEach(meeting => { %>
+          <!-- TODO: Setup a redirect from meetings/1 to all_meetings -->
+          
+          <li>
+            <h3><%= meeting.date %>  <%= meeting.day %></h3>
+            <h3> @ <%= meeting.venue %></h3>
+            <div class="buttons">
+              <button><a href="/meeting/<%= meeting.id %>">Details</a></button>
+              <!-- TODO: Add href links for update and delete routes/functionality -->
+              <form action="/meeting/<%=meeting.id %>" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete">
+              </form>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </main>
+
+  <%- include('../layout/footer') %>
+</body>
+
+</html>
