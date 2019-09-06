@@ -7,6 +7,11 @@ font-family: 'Open Sans', sans-serif;
 font-family: 'Loved by the King', cursive; */
 
 /* TODO: fix the FOUC */
+
+* {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+}
 body {
   background-image: url("./images/pretty_river_compressed.jpg");
   background-color: #9AB37B;
