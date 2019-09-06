@@ -53,9 +53,10 @@ app.delete('/meeting/:id', deleteRecord);
 app.put('/pastor/edit/:id', updateRecord);
 app.put('/church/edit/:id', updateRecord);
 
-app.get('*', (request, response) => response.status(404).send(
-  '<body style="background-color: black; display: flex; flex-direction: row; justify-content: center; align-content: center;"><img style="height: 50vw;" src="https://miro.medium.com/max/1081/1*VYPlqLaosLszAtKlx5fHzg.jpeg"/></body>'));
+// app.get('*', (request, response) => response.status(404).send(
+//   '<body style="background-color: black; display: flex; flex-direction: row; justify-content: center; align-content: center;"><img style="height: 50vw;" src="https://miro.medium.com/max/1081/1*VYPlqLaosLszAtKlx5fHzg.jpeg"/></body>'));
 
+  app.get('*', (request, response) => response.status(404).render(response.render('pages/404')));
 
 function getSingleChurch(request, response) {
   let SQL = 'SELECT * FROM churches WHERE id=$1;';
@@ -367,6 +368,7 @@ function addPastor(request, response) {
 }
 
 function addMinutes(request, response) {
+  console.log(request, 'new minutes')
   let minutes = new Minutes(request.body);
   console.log(minutes)
 
