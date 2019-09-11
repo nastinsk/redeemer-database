@@ -178,11 +178,13 @@ function formatReports(input) {
   console.log(input)
 
   for(let i = 0 ; i < input.church_id.length; i++) {
+    const lineBreak = /\r\n\r\n/g;
+    const lineBreakReplacement = ', ';
     input.church_id[i] = {
       church_id: input.church_id[i],
       church_name: input.church_name[i],
       church_pastor: input.church_pastor[i],
-      report: input.report[i],
+      report: '{' + input.report[i].replace(lineBreak, lineBreakReplacement) + '}',
       prayerRequests: getPrayerArray(input)[i]
     }
     churchReportsArray.push(input.church_id[i])
@@ -370,7 +372,7 @@ function addPastor(request, response) {
 function addMinutes(request, response) {
   console.log(request, 'new minutes')
   let minutes = new Minutes(request.body);
-  console.log(minutes)
+  console.log(minutes, "what does reports looks like?")
 
   let SQL = 'INSERT INTO meetings (date, day, formatted_date, start_time, end_time, venue, meeting_host, presiding_officer, agenda, minutes_taken_by, attendees, opening_prayer_by, gods_message_by, general_notes, church_reports, other_matters, next_meeting, next_meeting_formatted, next_meeting_day, next_time, next_location, next_location_host, closing_prayer_by) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23) RETURNING id;';
 

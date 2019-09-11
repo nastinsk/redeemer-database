@@ -80,7 +80,10 @@
             <div class="church-report-container">
                 <h6>Pastor <%= churchReports[k].church_pastor %> (<%= churchReports[k].church_name %>)</h6>
                 <div class="line-break"></div>
-                <p><%= churchReports[k].report %></p>
+
+                <% for(let m = 0 ; m < churchReports.length ; m++) { %>
+                  <p class="church-reports-array"><%= churchReports[k].report[m] %></p>
+                <% } %>
                 
                 <h6>Prayer Requests:</h6>
                 
