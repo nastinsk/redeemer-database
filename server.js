@@ -6,7 +6,8 @@ require('dotenv').config();
 // Application Dependencies
 const express = require('express');
 const pg = require('pg');
-const superagent = require('superagent');
+//TODO: remove superagent if not ultimately using
+// const superagent = require('superagent');
 const methodOverride = require('method-override');
 
 // Application Setup
@@ -100,7 +101,7 @@ function getSinglePastor(request, response) {
           );
 
           response.render('pages/show_single_pastor', {
-            pastor: result.rows[0],
+            pastor: new GetPastor(result.rows[0]),
             churches: churches.rows,
             church: church
           });
@@ -118,10 +119,17 @@ function getSingleMeeting(request, response) {
       client
         .query(SQL, values)
         .then(result => {
+          let reports = JSON.parse(
+            new GetMinutes(result.rows[0]).church_reports
+          ).church_reports;
+          console.log(
+            new GetMinutes(result.rows[0]).general_notes,
+            'gen notes'
+          );
           response.render('pages/show_single_meeting', {
-            meeting: result.rows[0],
+            meeting: new GetMinutes(result.rows[0]),
             churchPastorData: churchPastorData.rows,
-            churchReports: result.rows[0].church_reports.church_reports
+            churchReports: reports
           });
         })
         .catch(err => handleError(err, response));
@@ -185,20 +193,42 @@ function formatDate(input) {
 function formatReports(input) {
   let churchReportsArray = [];
 
-  console.log(input);
-
   for (let i = 0; i < input.church_id.length; i++) {
-    const lineBreak = /\r\n\r\n/g;
-    const lineBreakReplacement = ', ';
     input.church_id[i] = {
       church_id: input.church_id[i],
       church_name: input.church_name[i],
       church_pastor: input.church_pastor[i],
-      report:
-        '{' + input.report[i].replace(lineBreak, lineBreakReplacement) + '}',
+      report: formatTextboxes(input.report[i]),
       prayerRequests: getPrayerArray(input)[i]
     };
     churchReportsArray.push(input.church_id[i]);
+  }
+  return churchReportsArray;
+}
+
+// Removes curly brackets from the begining and end of string and turns the string into an array to format church report as required when database is queried.
+function formatChurchReport(str) {
+  let reportStr = str.slice(1, -1);
+  let reportArray = reportStr.split(',');
+
+  return reportArray;
+}
+
+function formatReportsOnOutput(input) {
+  let churchReportsArray = [];
+
+  for (let i = 0; i < input.church_reports.church_reports.length; i++) {
+    input.church_reports.church_reports[i].church_id = {
+      church_id: input.church_reports.church_reports[i].church_id,
+      church_name: input.church_reports.church_reports[i].church_name,
+      church_pastor: input.church_reports.church_reports[i].church_pastor,
+      report: formatTextboxOnOutput(
+        formatChurchReport(input.church_reports.church_reports[i].report)
+      ),
+      prayerRequests: input.church_reports.church_reports[i].prayerRequests
+    };
+
+    churchReportsArray.push(input.church_reports.church_reports[i].church_id);
   }
   return churchReportsArray;
 }
@@ -207,23 +237,21 @@ function formatReports(input) {
 function Minutes(input) {
   let startJSON = '{"church_reports":';
   let endJSON = '}';
-  const lineBreak = /\r\n\r\n/g;
-  const lineBreakReplacement = ', ';
   this.date = input.date;
-  (this.formatted_date = formatDate(input.date)),
-    (this.day = dayOfWeek(input.date));
+  this.formatted_date = formatDate(input.date);
+  this.day = dayOfWeek(input.date);
   this.start_time = input.start_time;
   this.end_time = input.end_time;
   this.venue = input.venue;
   this.meeting_host = input.meeting_host;
   this.presiding_officer = input.presiding_officer;
-  this.agenda =
-    '{' + input.agenda.replace(lineBreak, lineBreakReplacement) + '}';
+  this.agenda = formatTextboxes(input.agenda);
   this.minutes_taken_by = input.minutes_taken_by;
   this.attendees = input.attendees;
   this.opening_prayer_by = input.opening_prayer_by;
   this.gods_message_by = input.gods_message_by;
-  this.general_notes = input.general_notes;
+  this.general_notes = formatTextboxes(input.general_notes);
+  //TODO: Can I make this JSON without the ugly concatenation?
   this.church_reports =
     startJSON + JSON.stringify(formatReports(input)) + endJSON;
   this.other_matters = input.other_matters;
@@ -236,31 +264,69 @@ function Minutes(input) {
   this.closing_prayer_by = input.closing_prayer_by;
 }
 
-// TODO: find a way to escape "" in text input
+//Constructor that formats the pastor data after getting it from the database. Needed to manipulate punctuation of text boxes for user readability.
+function GetMinutes(input) {
+  let startJSON = '{"church_reports":';
+  let endJSON = '}';
+  this.id = input.id;
+  this.date = input.date;
+  this.formatted_date = formatDate(input.date);
+  this.day = dayOfWeek(input.date);
+  this.start_time = input.start_time;
+  this.end_time = input.end_time;
+  this.venue = input.venue;
+  this.meeting_host = input.meeting_host;
+  this.presiding_officer = input.presiding_officer;
+  this.agenda = formatTextboxOnOutput(input.agenda);
+  this.minutes_taken_by = input.minutes_taken_by;
+  this.attendees = input.attendees;
+  this.opening_prayer_by = input.opening_prayer_by;
+  this.gods_message_by = input.gods_message_by;
+  this.general_notes = formatTextboxOnOutput(
+    formatChurchReport(input.general_notes)
+  );
+  //TODO: Can I make this JSON without the ugly concatenation?
+  this.church_reports =
+    startJSON + JSON.stringify(formatReportsOnOutput(input)) + endJSON;
+  this.other_matters = input.other_matters;
+  this.next_meeting = input.next_meeting;
+  this.next_meeting_formatted = formatDate(input.next_meeting);
+  this.next_meeting_day = dayOfWeek(input.next_meeting);
+  this.next_time = input.next_time;
+  this.next_location = input.next_location;
+  this.next_location_host = input.next_location_host;
+  this.closing_prayer_by = input.closing_prayer_by;
+}
+
 // Pastors Constructor
 function Pastor(input) {
-  const lineBreak = /\r\n\r\n/g;
-  const lineBreakReplacement = ', ';
   this.pastor_first_name = input.pastor_first_name;
   this.pastor_last_name = input.pastor_last_name;
   this.spouse = input.spouse;
-  this.pastor_story =
-    '{' + input.pastor_story.replace(lineBreak, lineBreakReplacement) + '}';
-  this.spouse_story =
-    '{' + input.spouse_story.replace(lineBreak, lineBreakReplacement) + '}';
+  this.pastor_story = formatTextboxes(input.pastor_story);
+  this.spouse_story = formatTextboxes(input.spouse_story);
   this.image_url = input.image_url;
-  this.family_marriage =
-    '{' + input.family_marriage.replace(lineBreak, lineBreakReplacement) + '}';
-  this.prayer_needs =
-    '{' + input.prayer_needs.replace(lineBreak, lineBreakReplacement) + '}';
+  this.family_marriage = formatTextboxes(input.family_marriage);
+  this.prayer_needs = formatTextboxes(input.prayer_needs);
+  this.church_id = input.church_id;
+}
+
+//Constructor that formats the pastor data after getting it from the database. Needed to manipulate punctuation of text boxes for user readability.
+function GetPastor(input) {
+  this.id = input.id;
+  this.pastor_first_name = input.pastor_first_name;
+  this.pastor_last_name = input.pastor_last_name;
+  this.spouse = input.spouse;
+  this.pastor_story = formatTextboxOnOutput(input.pastor_story);
+  this.spouse_story = formatTextboxOnOutput(input.spouse_story);
+  this.image_url = input.image_url;
+  this.family_marriage = formatTextboxOnOutput(input.family_marriage);
+  this.prayer_needs = formatTextboxOnOutput(input.prayer_needs);
   this.church_id = input.church_id;
 }
 
 // Churches Constructor
-
 function Church(input) {
-  const lineBreak = /\r\n\r\n/g;
-  const lineBreakReplacement = ', ';
   this.name = input.name;
   this.map_url = `https://maps.googleapis.com/maps/api/staticmap?center=${input.latitude}%2c%20${input.longitude}&zoom=8&size=400x400&markers=size:medium%7Ccolor:BE5347%7C${input.latitude},${input.longitude}&maptype=hybrid&key=${process.env.GEOCODE_API_KEY}`;
   this.longitude = input.longitude;
@@ -287,7 +353,6 @@ function GetChurch(input) {
   this.sunday_school = input.sunday_school;
   this.pre_school = input.pre_school;
   this.feeding_program = input.feeding_program;
-  // this.description = '{' + input.description.replace(lineBreak, lineBreakReplacement) + '}';
   this.description = formatTextboxOnOutput(input.description);
   this.community = formatTextboxOnOutput(input.community);
 }
@@ -480,7 +545,6 @@ function addPastor(request, response) {
 }
 
 function addMinutes(request, response) {
-  console.log(request, 'new minutes');
   let minutes = new Minutes(request.body);
   console.log(minutes, 'what does reports looks like?');
 
@@ -546,10 +610,7 @@ function updateRecord(request, response) {
       let pastorUpdate = [pastor, SQL, values];
       return pastorUpdate;
     } else if (path === 'church') {
-      console.log('happening?');
       let church = new Church(request.body);
-      console.log(request.params.id, 'does this exist');
-      console.log('church in update: ', church);
       let SQL = `UPDATE churches SET name=$1, map_url=$2, longitude=$3, latitude=$4, location=$5, church_members=$6, sunday_school=$7, pre_school=$8, feeding_program=$9, description=$10, community=$11 WHERE id=$12;`;
 
       let values = [

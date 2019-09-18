@@ -67,7 +67,9 @@
       <div id="meeting-announcements">
         <h6>Announcements:</h6>
         <div>
-          <p><%=meeting.general_notes %></p>
+          <% for(let p = 0 ; p < meeting.general_notes.length ; p++) { %>
+            <p><%=meeting.general_notes[p] %></p>
+          <% } %>
         </div>
       </div>
 
@@ -81,7 +83,7 @@
                 <h6>Pastor <%= churchReports[k].church_pastor %> (<%= churchReports[k].church_name %>)</h6>
                 <div class="line-break"></div>
 
-                <% for(let m = 0 ; m < churchReports.length ; m++) { %>
+                <% for(let m = 0 ; m < churchReports[k].report.length ; m++) { %>
                   <p class="church-reports-array"><%= churchReports[k].report[m] %></p>
                 <% } %>
                 
