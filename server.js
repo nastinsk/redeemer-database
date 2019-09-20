@@ -464,20 +464,6 @@ function addSelection(request, response) {
     .then(result => {
       getChurchesWithPastors()
         .then(churchList => {
-          let months = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
-          ];
           response.render('pages/add', {
             churchList: churchList.rows,
             distinctChurches: result.rows
