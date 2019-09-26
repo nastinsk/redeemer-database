@@ -51,6 +51,7 @@ app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
 app.get('/pastor/:id', getSinglePastor);
 app.get('/meeting/:id', getSingleMeeting);
+app.get('/print_report/:id', getSingleReport);
 app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
 app.post('/new-minutes', addMinutes);
@@ -119,14 +120,42 @@ function getSingleMeeting(request, response) {
       client
         .query(SQL, values)
         .then(result => {
+          console.log(result, 'meeting results');
           let reports = JSON.parse(
             new GetMinutes(result.rows[0]).church_reports
           ).church_reports;
-          console.log(
-            new GetMinutes(result.rows[0]).general_notes,
-            'gen notes'
-          );
-          response.render('pages/show_single_meeting', {
+          // console.log(
+          //   new GetMinutes(result.rows[0]).general_notes,
+          //   'gen notes'
+          // );
+          response.render('pages/print_report/:${result.id}', {
+            meeting: new GetMinutes(result.rows[0]),
+            churchPastorData: churchPastorData.rows,
+            churchReports: reports
+          });
+        })
+        .catch(err => handleError(err, response));
+    })
+    .catch(err => handleError(err, response));
+}
+
+function getSingleReport(request, response) {
+  getChurchesWithPastors()
+    .then(churchPastorData => {
+      let SQL = 'SELECT * FROM meetings WHERE id=$1;';
+      let values = [request.params.id];
+      client
+        .query(SQL, values)
+        .then(result => {
+          console.log(result, 'meeting results');
+          let reports = JSON.parse(
+            new GetMinutes(result.rows[0]).church_reports
+          ).church_reports;
+          // console.log(
+          //   new GetMinutes(result.rows[0]).general_notes,
+          //   'gen notes'
+          // );
+          response.render('pages/print_report', {
             meeting: new GetMinutes(result.rows[0]),
             churchPastorData: churchPastorData.rows,
             churchReports: reports
