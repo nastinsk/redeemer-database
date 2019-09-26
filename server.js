@@ -128,7 +128,7 @@ function getSingleMeeting(request, response) {
           //   new GetMinutes(result.rows[0]).general_notes,
           //   'gen notes'
           // );
-          response.render('pages/print_report/:${result.id}', {
+          response.render('pages/show_single_meeting', {
             meeting: new GetMinutes(result.rows[0]),
             churchPastorData: churchPastorData.rows,
             churchReports: reports
