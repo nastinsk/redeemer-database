@@ -227,10 +227,14 @@
   color: black;
   width: 10%;
 }
-#print:hover, #email:hover, #print-modal-button > a > #printMe:hover {
+#print:hover, #email:hover, #print-modal-button > a:hover {
   background-color: #BE5347;
   color: black;
   outline: none;
+}
+
+#print-modal-button > a {
+  text-decoration: none;
 }
 
 #print:focus, #email:focus, #printMe:focus {

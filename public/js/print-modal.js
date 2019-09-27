@@ -1,5 +1,7 @@
 document.getElementById('printMe').onclick = function() {
   console.log('i was clicked!');
+  modal.style.display = 'none';
+
   // printElement(document.getElementById('printThis'));
 };
 
