@@ -1,7 +1,7 @@
 <section id="single-meeting" class="single-meeting-info">
   <div id="print-send">
-    <button id="print"><i class="fas fa-print"></i>Print</button>
-    <button id="email"><i class="fas fa-envelope"></i>Send</button>
+    <button id="print"><i class="fas fa-print"></i>Preview</button>
+    <!-- <button id="email"><i class="fas fa-envelope"></i>Send</button> -->
   </div>
     <div class="meeting-info-title">
         <img src="../../styles/images/redeemer-logo-white.png"/>
@@ -137,4 +137,148 @@
       </form>
     </div>
   </form>
+
+
+<!-- Modal example without requiring Bootstrap https://www.w3schools.com/howto/howto_css_modals.asp -->
+<!-- TODO: Add Attribution to readme -->
+
+<!-- The Modal -->
+<div id="printThis">
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="meeting-info-title">
+        <img src="../../styles/images/redeemer-logo-black.png"/>
+        <h2>Redeemer of Life Ministries</h2>
+      </div>
+    <div class="meeting-info">
+      <!-- TODO: Link Church Name Table as a display field -->
+      <!-- TODO: convert the date/time logic in the constructor instead of in the EJS-->
+      <div class="line-break"></div>
+      <h3>Minutes of Meeting</h3>
+      <div class="line-break"></div>
+      <div>
+        <h6>Date: </h6>
+        <p><%= meeting.day %>, <%= meeting.formatted_date%></p>
+        <h6>Time: </h6>
+        <p><%= meeting.start_time %> to <%= meeting.end_time %></p>
+      </div>
+      <div>
+        <h6>Venue: </h6>
+        <p><%= meeting.venue%> (<%= meeting.meeting_host %>)</p>
+        
+      </div>
+      <div id="agenda">
+        <h6>Agenda: </h6>
+        
+        <ol>
+          <% for(let i = 0 ; i < meeting.agenda.length ; i++) { %>
+          <li>
+            <%= meeting.agenda[i] %>
+          </li>
+          <% } %>
+        </ol>
+      </div>
+      <div>
+        <h6>Minutes Recorded By: </h6>
+        <p><%= meeting.minutes_taken_by %></p>
+        <h6>Presiding Officer: </h6>
+        <p><%= meeting.presiding_officer %></p>
+      </div>
+
+      <div class="line-break"></div>
+      <h3>Attendance</h3>
+      <div class="line-break"></div>
+
+      <div id="attendee-div">
+        <ol>
+          <% for(let j = 0 ; j < meeting.attendees.length ; j++) { %>
+          <li>
+              <%=meeting.attendees[j] %>
+          </li>
+          <% } %>
+        </ol>
+      </div>
+      <div class="line-break"></div>
+      <h3>Introductory Information</h3>
+      <div class="line-break"></div>
+      <div>
+        <h6>Opening Prayer: </h6>
+        <p><%= meeting.opening_prayer_by %></p>
+        <h6>Sharing God's Word By: </h6>
+        <p><%= meeting.gods_message_by %></p>
+      </div>
+      <div id="meeting-announcements">
+        <h6>Announcements:</h6>
+        <div>
+          <% for(let p = 0 ; p < meeting.general_notes.length ; p++) { %>
+            <p><%=meeting.general_notes[p] %></p>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="line-break"></div>
+      <h3>Reporting</h3>
+      <div class="line-break"></div>
+
+      <div class= "church-meeting-report">
+          <% for(let k = 0 ; k < churchReports.length ; k++) { %>
+            <div class="church-report-container">
+                <h6>Pastor <%= churchReports[k].church_pastor %> (<%= churchReports[k].church_name %>)</h6>
+                <div class="line-break"></div>
+
+                <% for(let m = 0 ; m < churchReports[k].report.length ; m++) { %>
+                  <p class="church-reports-array"><%= churchReports[k].report[m] %></p>
+                <% } %>
+                
+                <h6>Prayer Requests:</h6>
+                
+                <ol>
+                  <% for(let n = 0 ; n < churchReports[k].prayerRequests.length ; n++) { %>
+                    <li><%= churchReports[k].prayerRequests[n] %></li>
+                <% } %>
+                </ol>
+            </div>
+          <% } %>
+      </div>
+      <div class="line-break"></div>
+        <h3>Other Matters</h3>
+      <div class="line-break"></div>
+        <ol id="other-matters-list">
+        <% for(let p = 0 ; p < meeting.other_matters.length ; p++) { %>
+            <li><%= meeting.other_matters[p] %></li>
+            <% } %>
+        </ol>
+      
+      <div class="line-break"></div>
+        <h3>Next Meeting</h3>
+      <div class="line-break"></div>
+      <div>
+          <h6>Date: </h6>
+          <p><%= meeting.next_meeting_formatted %> (<%=meeting.next_meeting_day %>)</p>
+          <h6>Time: </h6>
+          <p><%= meeting.next_time %></p>
+      </div>
+      <div>
+          <h6>Venue: </h6>
+          <p><%= meeting.next_location %> (Pastor <%=meeting.next_location_host %>)</p>
+      </div>
+      <div class="line-break"></div>
+        <h3>Closing</h3>
+      <div class="line-break"></div>
+      <div>
+          <h6>Closing Prayer: </h6>
+          <p><%= meeting.closing_prayer_by %></p>
+        </div>
+      <div class="line-break"></div>
+    </div>
+    <div id="print-modal-button">
+      <a target="_blank" href="/print_report/<%=meeting.id%>" id="printMe"><i class="fas fa-print"></i>Print</a>
+    </div>
+  </div>
+
+</div>
+</div>
 </section>
