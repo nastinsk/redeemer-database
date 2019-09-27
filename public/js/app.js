@@ -41,6 +41,9 @@ $('.add-church-button').on('click', function() {
   } else if ($('.add-budget-button').hasClass('selected') === true) {
     $('.add-budget-form').hide();
     $('.add-budget-button').removeClass('selected');
+  } else if ($('.add-prayer-requests-button').hasClass('selected') === true) {
+    $('.add-prayer-requests-form').hide();
+    $('.add-prayer-requests-button').removeClass('selected');
   }
   $('.add-church-form').slideToggle(700);
   $('.add-church-button').toggleClass('selected');
@@ -56,6 +59,9 @@ $('.add-pastor-button').on('click', function() {
   } else if ($('.add-budget-button').hasClass('selected') === true) {
     $('.add-budget-form').hide();
     $('.add-budget-button').removeClass('selected');
+  } else if ($('.add-prayer-requests-button').hasClass('selected') === true) {
+    $('.add-prayer-requests-form').hide();
+    $('.add-prayer-requests-button').removeClass('selected');
   }
   $('.add-pastor-form').slideToggle(700);
   $('.add-pastor-button').toggleClass('selected');
@@ -71,6 +77,9 @@ $('.add-budget-button').on('click', function() {
   } else if ($('.add-pastor-button').hasClass('selected') === true) {
     $('.add-pastor-form').hide();
     $('.add-pastor-button').removeClass('selected');
+  } else if ($('.add-prayer-requests-button').hasClass('selected') === true) {
+    $('.add-prayer-requests-form').hide();
+    $('.add-prayer-requests-button').removeClass('selected');
   }
   $('.add-budget-form').slideToggle(700);
   $('.add-budget-button').toggleClass('selected');
@@ -86,9 +95,30 @@ $('.add-minutes-button').on('click', function() {
   } else if ($('.add-budget-button').hasClass('selected') === true) {
     $('.add-budget-form').hide();
     $('.add-budget-button').removeClass('selected');
+  } else if ($('.add-prayer-requests-button').hasClass('selected') === true) {
+    $('.add-prayer-requests-form').hide();
+    $('.add-prayer-requests-button').removeClass('selected');
   }
   $('.add-minutes-form').slideToggle(700);
   $('.add-minutes-button').toggleClass('selected');
+});
+
+$('.add-prayer-requests-button').on('click', function() {
+  if ($('.add-church-button').hasClass('selected') === true) {
+    $('.add-church-form').hide();
+    $('.add-church-button').removeClass('selected');
+  } else if ($('.add-pastor-button').hasClass('selected') === true) {
+    $('.add-pastor-form').hide();
+    $('.add-pastor-button').removeClass('selected');
+  } else if ($('.add-budget-button').hasClass('selected') === true) {
+    $('.add-budget-form').hide();
+    $('.add-budget-button').removeClass('selected');
+  } else if ($('.add-prayer-requests-button').hasClass('selected') === true) {
+    $('.add-prayer-requests-form').hide();
+    $('.add-prayer-requests-button').removeClass('selected');
+  }
+  $('.add-prayer-requests-form').slideToggle(700);
+  $('.add-prayer-requests-button').toggleClass('selected');
 });
 
 //Hamburger Menu
