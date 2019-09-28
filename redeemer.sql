@@ -1,4 +1,17 @@
-DROP TABLE IF EXISTS pastors, churches, meetings;
+DROP TABLE IF EXISTS pastors, churches, meetings, prayers, comments;
+
+CREATE TABLE IF NOT EXISTS prayers (
+  id SERIAL PRIMARY KEY,
+  date DATE,
+  prayer TEXT[]
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+  id SERIAL PRIMARY KEY,
+  date DATE,
+  comment TEXT[],
+  prayer_id INT REFERENCES prayers(id)
+);
 
 CREATE TABLE IF NOT EXISTS churches (
   id SERIAL PRIMARY KEY,

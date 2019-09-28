@@ -5,6 +5,7 @@ $('.add-church-form').hide();
 $('.add-pastor-form').hide();
 $('.add-minutes-form').hide();
 $('.add-budget-form').hide();
+$('.add-prayer-requests-form').hide();
 $('#single-pastor-edit-form').hide();
 $('#single-church-edit-form').hide();
 // $('.line-break').hide();
@@ -113,9 +114,6 @@ $('.add-prayer-requests-button').on('click', function() {
   } else if ($('.add-budget-button').hasClass('selected') === true) {
     $('.add-budget-form').hide();
     $('.add-budget-button').removeClass('selected');
-  } else if ($('.add-prayer-requests-button').hasClass('selected') === true) {
-    $('.add-prayer-requests-form').hide();
-    $('.add-prayer-requests-button').removeClass('selected');
   }
   $('.add-prayer-requests-form').slideToggle(700);
   $('.add-prayer-requests-button').toggleClass('selected');

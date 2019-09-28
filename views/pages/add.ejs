@@ -320,6 +320,28 @@
   <button type="submit">Add to Database</button>
 </form>
 
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+
+<form class="add-prayer-requests-form" action="/new-church" method="post">
+  <!-- TODO: remove pink input outlines -->
+  <div class="line-break"></div>
+
+  <div class = "form-title">
+    <h3><i class="fas fa-praying-hands"></i>Add a New Prayer Request to the Database</h3>
+  </div>
+
+  <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
+
+  <input type="hidden" name="date" value="<%=new Date()%>" required>
+
+  <textarea name="prayer-request" placeholder="Prayer Request" cols="30" rows="5" required></textarea>
+  
+  <button type="submit">Add to Database</button>
+</form>
+
     </div>
   </main>
   <%- include('../layout/footer') %>
