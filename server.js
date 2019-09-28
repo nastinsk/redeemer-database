@@ -47,6 +47,7 @@ app.get('/', homePage);
 app.get('/all_churches', allChurches);
 app.get('/all_pastors', allPastors);
 app.get('/all_meetings', allMeetings);
+app.get('/all_prayer_requests', allPrayers);
 app.get('/add', addSelection);
 app.get('/church/:id', getSingleChurch);
 app.get('/pastor/:id', getSinglePastor);
@@ -55,6 +56,7 @@ app.get('/print_report/:id', getSingleReport);
 app.post('/new-church', addChurch);
 app.post('/new-pastor', addPastor);
 app.post('/new-minutes', addMinutes);
+app.post('/new-prayer', addPrayer);
 app.delete('/church/:id', deleteRecord);
 app.delete('/pastor/:id', deleteRecord);
 app.delete('/meeting/:id', deleteRecord);
@@ -219,6 +221,50 @@ function formatDate(input) {
   return formattedDate;
 }
 
+function formatHours(date) {
+  let hours = date.getHours();
+  let formattedHour = hours;
+  if (hours < 10) {
+    formattedHour = `0${hours}`;
+  }
+  return formattedHour;
+}
+
+function formatMinutes(date) {
+  let minutes = date.getMinutes();
+  let formattedMinutes = minutes;
+  if (formattedMinutes < 10) {
+    formattedMinutes = `0${minutes}`;
+  }
+  return formattedMinutes;
+}
+
+function formatSeconds(date) {
+  let seconds = date.getSeconds();
+  let formattedSeconds = seconds;
+  if (formattedSeconds < 10) {
+    formattedSeconds = `0${seconds}`;
+  }
+  return formattedSeconds;
+}
+
+function convertToDate(date) {
+  let convertedDate = new Date(Date.parse(date));
+  return convertedDate;
+}
+
+function timestamp(date) {
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  let day = date.getDate();
+  let hours = formatHours(date);
+  let minutes = formatMinutes(date);
+  let seconds = formatSeconds(date);
+  let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+  return formattedDate;
+}
+
 function formatReports(input) {
   let churchReportsArray = [];
 
@@ -260,6 +306,18 @@ function formatReportsOnOutput(input) {
     churchReportsArray.push(input.church_reports.church_reports[i].church_id);
   }
   return churchReportsArray;
+}
+//Prayer Request Constructor
+function Prayer(input) {
+  this.date = JSON.stringify(timestamp(convertToDate(input.date)));
+  this.prayer = formatTextboxes(input.prayer);
+}
+
+//Prayer Update Constructor
+function UpdatePrayer(input) {
+  this.date = JSON.stringify(timestamp(convertToDate(input.date)));
+  this.comment = formatTextboxes(input.comment);
+  this.prayer_id = input.prayer_id;
 }
 
 //Meeting Minutes Constructor
@@ -458,6 +516,14 @@ function allChurches(request, response) {
     .catch(err => handleError(err, response));
 }
 
+function allPrayers(request, response) {
+  let SQL = 'SELECT * FROM prayers ORDER BY date ASC;';
+
+  return client.query(SQL).then(results => {
+    response.render('pages/prayer-requests', { prayers: results.rows });
+  });
+}
+
 function allMeetings(request, response) {
   let SQL = 'SELECT * FROM meetings ORDER BY id ASC;';
   return client
@@ -533,6 +599,22 @@ function addChurch(request, response) {
     .catch(err => handleError(err, response));
 }
 
+function addPrayer(request, response) {
+  let prayer = new Prayer(request.body);
+  console.log(prayer);
+
+  let SQL = 'INSERT INTO prayers (date, prayer) VALUES($1, $2) RETURNING id';
+  console.log(SQL);
+  let values = [prayer.date, prayer.prayer];
+  console.log(values);
+  client
+    .query(SQL, values)
+    .then(result => {
+      console.log(result);
+      response.redirect('/all_prayer_requests');
+    })
+    .catch(err => handleError(err, response));
+}
 function addPastor(request, response) {
   let pastor = new Pastor(request.body);
 

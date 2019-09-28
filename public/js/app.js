@@ -31,7 +31,7 @@ $('#cancel-change').on('click', function() {
   $('#single-church').toggle();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-// TODO: DRY up this code!
+// TODO: DRY up repetitive button click handlers!
 $('.add-church-button').on('click', function() {
   if ($('.add-pastor-button').hasClass('selected') === true) {
     $('.add-pastor-form').hide();
@@ -111,6 +111,9 @@ $('.add-prayer-requests-button').on('click', function() {
   } else if ($('.add-pastor-button').hasClass('selected') === true) {
     $('.add-pastor-form').hide();
     $('.add-pastor-button').removeClass('selected');
+  } else if ($('.add-minutes-button').hasClass('selected') === true) {
+    $('.add-minutes-form').hide();
+    $('.add-minutes-button').removeClass('selected');
   } else if ($('.add-budget-button').hasClass('selected') === true) {
     $('.add-budget-form').hide();
     $('.add-budget-button').removeClass('selected');

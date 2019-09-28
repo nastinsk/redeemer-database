@@ -325,7 +325,7 @@
 <!-- ========================================================================== -->
 <!-- ========================================================================== -->
 
-<form class="add-prayer-requests-form" action="/new-church" method="post">
+<form class="add-prayer-requests-form" action="/new-prayer" method="post">
   <!-- TODO: remove pink input outlines -->
   <div class="line-break"></div>
 
@@ -335,9 +335,9 @@
 
   <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
 
-  <input type="hidden" name="date" value="<%=new Date()%>" required>
+  <input type=hidden name="date" value="<%=new Date()%>" required>
 
-  <textarea name="prayer-request" placeholder="Prayer Request" cols="30" rows="5" required></textarea>
+  <textarea name="prayer" placeholder="Prayer Request" cols="30" rows="5" required></textarea>
   
   <button type="submit">Add to Database</button>
 </form>
