@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "watch": "nodemon server.js"
+    "watch": "nodemon server.js",
+    "lint": "eslint **/*.js",
+    "test": "jest --verbose --coverage",
+    "test-watch": "jest --watchAll --verbose --coverage",
+    "jsdoc": "jsdoc -c ./docs/config/jsdoc.config.json"
   },
   "keywords": [],
   "author": "Code Fellows, LLC",
@@ -14,6 +18,7 @@
     "dotenv": "^7.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.2",
+    "jsdoc": "^3.6.3",
     "jspdf": "^1.5.3",
     "method-override": "^3.0.0",
     "pg": "^7.3.0",
