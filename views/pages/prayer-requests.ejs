@@ -4,32 +4,64 @@
 <head>
     <title>Prayer Requests</title>
     <%- include('../layout/head') %>
-    <link rel="stylesheet" href="../../styles/list.css">
+    <link rel="stylesheet" href="../../styles/prayer_list.css">
 </head>
 
 <body>
     <%- include('../layout/header') %>
     <main>
-        <div class="all">
+        <div class="all-prayers">
             <div>
                 <h1><i class="fas fa-praying-hands"></i></h1>
                 <h1>All Prayer Requests</h1>
-        </div>
-        <!-- TODO: Handle singluar vs plural when rendering -->
-        <h6>There are currently <%=prayers.length %> <% if(prayers.length > 1){%> prayer<%} else { %> prayers<%}%> saved in the database</h6>
-        <ul class= "object-list">
-        <% prayers.forEach(prayer => { %>
-            <li>
-            <h3><%= prayer.prayer %></h3>
-            <div class="buttons">
-                <form action="/prayer/<%=prayer.id%>" method="POST">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="submit" value="Delete">
-                </form>
+                <!-- TODO: Handle singluar vs plural when rendering -->
+                <% if(prayers.length === 1){%>
+                    <h6>There is currently <%=prayers.length %> prayer saved in the database </h6>
+                    <%} else { %> 
+                        <h6>The are currently <%=prayers.length %> prayers saved in the database</h6>
+                        <%}%>
+                        <!-- <ul class= "object-list"> -->
             </div>
-            </li>
+            <div class="CHANGE">
+                <% prayers.forEach(prayer => { %>
+            <div>
+                
+                <h3><%= prayer.prayer %></h3>
+                <h4>Added <%= prayer.date %></h4>
+                <!-- <button><a href="/prayer/<%= prayer.id %>"></a>Add Update</a></button> -->
+                <!-- <div class="buttons">
+                    <form action="/prayer/<%=prayer.id%>" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="submit" value="Delete">
+                    </form>
+                </div> -->
+            <form class="add-prayer-update-form" action="/new-update" method="post">
+                <!-- TODO: remove pink input outlines -->
+                <div class="line-break"></div>
+                
+                <div class = "form-title">
+                    <h3><i class="fas fa-praying-hands"></i>Add a Prayer Request Update</h3>
+                </div>
+                
+                <input type=hidden name="date" value="<%=new Date()%>" required>
+                <input type=hidden name="prayer_id" value="<%=prayer.prayer_id%>" required>
+
+                <textarea name="comment" placeholder="Prayer Request Update" cols="30" rows="5" required></textarea>
+                
+                <button type="submit">Add Update</button>
+            </form>
+                <div>
+                    <ul>
+                        <li>
+                            <!-- <h4>Date</h4>
+                            <h4>Update Text</h4> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
         <% }) %>
-        </ul>
+        <!-- </ul> -->
+    </div>
     </div>
     </main>
     <%- include('../layout/footer') %>
