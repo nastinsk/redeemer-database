@@ -49,6 +49,12 @@
               <i class="fas fa-dollar-sign"></i>
           </button> -->
 
+          <button class="add-prayer-requests-button">
+              <h2>Add Prayer Request</h2>
+              <i class="fas fa-praying-hands"></i>
+          </button>
+        </div>
+        <div>
         </div>
 
         <!-- TODO: Store form inputs in local storage until submit button?? -->
@@ -311,6 +317,28 @@
     </div>
   </div>
   <div class="line-break"></div>
+  <button type="submit">Add to Database</button>
+</form>
+
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+<!-- ========================================================================== -->
+
+<form class="add-prayer-requests-form" action="/new-prayer" method="post">
+  <!-- TODO: remove pink input outlines -->
+  <div class="line-break"></div>
+
+  <div class = "form-title">
+    <h3><i class="fas fa-praying-hands"></i>Add a New Prayer Request to the Database</h3>
+  </div>
+
+  <p>Lorem ipsum dolor sit amet, sed in eius doctus epicurei, in omittam salutatus sea. Vidit aliquam usu no, et nec dictas expetenda.</p>
+
+  <input type=hidden name="date" value="<%=new Date()%>" required>
+
+  <textarea name="prayer" placeholder="Prayer Request" cols="30" rows="5" required></textarea>
+  
   <button type="submit">Add to Database</button>
 </form>
 
